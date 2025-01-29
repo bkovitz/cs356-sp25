@@ -1,0 +1,21 @@
+{
+    "configurations": [
+      {
+        "name": "Mac",
+        "includePath": [
+          "${workspaceFolder}/**",
+          "/opt/homebrew/include"
+        ],
+        "compilerArgs": [
+          "-L/opt/homebrew/lib",
+          "-lfltk",
+          "-lfltk_images"
+        ],
+        "macFrameworkPath": [
+          "/System/Library/Frameworks"
+        ],
+        "intelliSenseMode": "macos-clang-arm64"
+      }
+    ],
+    "version": 4
+  }
