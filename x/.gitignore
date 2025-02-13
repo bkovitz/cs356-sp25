@@ -1,9 +1,5 @@
 .qt/
 .vscode/*
 
-# Temporary cmake/make files
-build/
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-Makefile
+# Temporary cmake/make/executable files
+build/*
