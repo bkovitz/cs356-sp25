@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     button->setGeometry(50, 50, 100, 30);
     
     // Connect the button's clicked signal to our slot
+    // Arguements: Sender object, signal type, receiver object, slot function
     connect(button, &QPushButton::clicked, this, &MainWindow::handleButtonClick);
 }
 
