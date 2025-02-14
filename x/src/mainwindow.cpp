@@ -1,6 +1,4 @@
 #include "mainwindow.h"
-#include <QDebug>
-#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent) {
@@ -14,8 +12,32 @@ MainWindow::MainWindow(QWidget *parent)
     connect(button, &QPushButton::clicked, this, &MainWindow::handleButtonClick);
 }
 
+void MainWindow::paintEvent(QPaintEvent *)
+{   
+    QPainter p;
+    p.begin(this);
+    p.fillRect(QRect(100, 30, 50, 100), QColor(255, 0, 0));
+    p.end();
+
+}
+
 void MainWindow::handleButtonClick() {
     std::cout << "Button was clicked!" << std::endl;
     // You can also use Qt's logging system:
     // qDebug() << "Button was clicked!";
+    button->setText("Clicked");
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *event) {
+    QPointF point = event->position();
+    std::cout << "mouse has been pressed" << std::endl;
+    std::cout << point.x() << " " << point.y() << std::endl;
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event) {
+    std::cout << "mouse has been moved" << std::endl;
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
+    std::cout << "mouse has been released" << std::endl;
 }
