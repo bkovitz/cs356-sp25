@@ -1,3 +1,5 @@
-build/
 .qt/
 .vscode/*
+
+# Temporary cmake/make/executable files
+build/*
