@@ -1,0 +1,83 @@
+How to set up your computer so you can build and run the software in this
+repository under VSCode.
+
+These instructions are not complete. They're our best approximation as of
+18-Feb-2025. See the bottom of this file for a list of known omissions.
+
+
+1. Outside of VSCode:
+
+   1.1 Install CMake.
+
+   1.2 Install a C++ compiler.
+
+      On Windows:
+         Install Visual Studio Community 2022, C++20.
+         gcc might work, too.
+
+      On Mac:
+         Install clang (maybe through XCode, maybe brew).
+
+   1.3 Install VSCode.
+
+   1.4 Install Qt.
+
+		Windows:
+         Prefer "online install", otherwise you have to build the whole thing
+         from source. Just get "Qt", not any of the other options. Select also
+         the "CMake" option under "Build Tools".
+
+      Mac:
+         'brew install qt' might work.
+
+2. In VSCode:
+
+   "C-Shift-P" below means Ctrl-Shift-P on Windows and Linux, Cmd-Shift-P on
+   Mac.
+
+   To run VSCode, cd into the directory where you want to make a project and
+   run 'code .'
+
+	2.1 Install the Microsoft C/C++ Tools extension.
+
+	2.2 Install the Microsoft CMake Tools extension.
+
+   2.3 Install the Qt tools extension by tonka3000.
+
+	2.4 Put in a Qt "Hello World" source code by copying/pasting/editing.
+   Maybe get Claude.ai to write it for you.
+
+   2.5 Set up a CMakeLists.txt file. (Claude.ai may already have written one
+   for you.)
+
+   2.6 Press C-Shift-P and type/select: CMake: Select Kit to choose the
+   compiler.
+		Windows: Visual Studio Community 2022 Release amd64-x86  or  gcc
+		Mac: clang
+
+	2.7 Press C-Shift-P and type/select: CMake: Configure to get VSCode to
+   read your CMakeLists.txt file. You'll need to do this each time you
+   modify CMakeLists.txt.
+
+----
+
+Some known omissions from the above (we're still looking for info from
+authoritative sources):
+
+   How to tell CMake and/or VSCode where your compiler is.
+
+   How to tell CMake and/or VSCode where your Qt library is.
+
+   How to tell CMake where your Qt6 CMake config file is.
+
+   How to get the CMake tools in VSCode to put some helpful buttons along the
+   bottom of the VSCode window.
+
+If you're having problems, one tip is to temporarily ignore VSCode and just
+get a tiny C++ "Hello World" program to compile in CMake directly from the
+command line. That will shake out getting CMake to find the C++ compiler.
+Then get a tiny Qt app to compile under CMake directly from the command line.
+That will shake out getting CMake to tell the C++ compiler where the Qt
+library is. With that working, then it should be easier to figure out how to
+tell VSCode how to run the whole process. You will have reached ultimate
+success when you can edit, build, and debug your Qt application in VSCode.
