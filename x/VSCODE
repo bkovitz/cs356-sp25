@@ -22,7 +22,7 @@ These instructions are not complete. They're our best approximation as of
 
    1.4 Install Qt.
 
-		Windows:
+      Windows:
          Prefer "online install", otherwise you have to build the whole thing
          from source. Just get "Qt", not any of the other options. Select also
          the "CMake" option under "Build Tools".
@@ -38,13 +38,13 @@ These instructions are not complete. They're our best approximation as of
    To run VSCode, cd into the directory where you want to make a project and
    run 'code .'
 
-	2.1 Install the Microsoft C/C++ Tools extension.
+   2.1 Install the Microsoft C/C++ Tools extension.
 
-	2.2 Install the Microsoft CMake Tools extension.
+   2.2 Install the Microsoft CMake Tools extension.
 
    2.3 Install the Qt tools extension by tonka3000.
 
-	2.4 Put in a Qt "Hello World" source code by copying/pasting/editing.
+   2.4 Put in a Qt "Hello World" source code by copying/pasting/editing.
    Maybe get Claude.ai to write it for you.
 
    2.5 Set up a CMakeLists.txt file. (Claude.ai may already have written one
@@ -52,10 +52,10 @@ These instructions are not complete. They're our best approximation as of
 
    2.6 Press C-Shift-P and type/select: CMake: Select Kit to choose the
    compiler.
-		Windows: Visual Studio Community 2022 Release amd64-x86  or  gcc
-		Mac: clang
+      Windows: Visual Studio Community 2022 Release amd64-x86  or  gcc
+      Mac: clang
 
-	2.7 Press C-Shift-P and type/select: CMake: Configure to get VSCode to
+   2.7 Press C-Shift-P and type/select: CMake: Configure to get VSCode to
    read your CMakeLists.txt file. You'll need to do this each time you
    modify CMakeLists.txt.
 
