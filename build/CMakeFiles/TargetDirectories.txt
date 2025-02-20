@@ -1,0 +1,3 @@
+C:/Users/mtomm/Documents/home/class/cs_356/cs356-sp25/build/CMakeFiles/garage.dir
+C:/Users/mtomm/Documents/home/class/cs_356/cs356-sp25/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/mtomm/Documents/home/class/cs_356/cs356-sp25/build/CMakeFiles/ZERO_CHECK.dir

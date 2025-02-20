@@ -1,0 +1,10 @@
+^C:\USERS\MTOMM\DOCUMENTS\HOME\CLASS\CS_356\CS356-SP25\PAINTINGONCANVAS\Y\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/mtomm/Documents/home/class/cs_356/cs356-sp25/paintingOnCanvas/Y -BC:/Users/mtomm/Documents/home/class/cs_356/cs356-sp25/paintingOnCanvas/build --check-stamp-file C:/Users/mtomm/Documents/home/class/cs_356/cs356-sp25/paintingOnCanvas/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

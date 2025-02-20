@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\mtomm\Documents\home\class\cs_356\cs356-sp25\paintingOnCanvas\build\CMakeFiles\4e1cc911ce95ca75c84524adf571a358\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{4AED6C58-D46A-3783-AEF9-62738A1FC0B6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

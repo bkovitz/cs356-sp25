@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\mtomm\Documents\home\class\cs_356\cs356-sp25\paintingOnCanvas\build\myproject_autogen\mocs_compilation_Debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mtomm\Documents\home\class\cs_356\cs356-sp25\paintingOnCanvas\Y\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mtomm\Documents\home\class\cs_356\cs356-sp25\paintingOnCanvas\Y\src\MyCanvas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mtomm\Documents\home\class\cs_356\cs356-sp25\paintingOnCanvas\build\myproject_autogen\mocs_compilation_Release.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mtomm\Documents\home\class\cs_356\cs356-sp25\paintingOnCanvas\build\myproject_autogen\mocs_compilation_MinSizeRel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mtomm\Documents\home\class\cs_356\cs356-sp25\paintingOnCanvas\build\myproject_autogen\mocs_compilation_RelWithDebInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\mtomm\Documents\home\class\cs_356\cs356-sp25\paintingOnCanvas\Y\include\MyCanvas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\mtomm\Documents\home\class\cs_356\cs356-sp25\paintingOnCanvas\Y\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{0737E083-0E4D-36CA-B28C-B6810EF47F5C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{7D753273-D078-369D-9710-5B1442E0146F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
