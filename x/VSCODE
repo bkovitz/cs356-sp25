@@ -38,32 +38,35 @@ These instructions are not complete. They're our best approximation as of
    To run VSCode, cd into the directory where you want to make a project and
    run 'code .'
 
-   2.1 Install the Microsoft C/C++ Tools extension.
+   2.1 Install these extensions:
+      Microsoft C/C++
+      Microsoft CMake Tools
+      Qt C++
+      Qt Core
+      Qt Extension Pack
+      Qt Qml
+      Qt UI (all these from Qt Group)
 
-   2.2 Install the Microsoft CMake Tools extension.
+   2.2 Put in the source code to a Qt "Hello World" program by copying/
+   pasting/editing.  Maybe get Claude.ai to write it for you. Or use
+   what we already have in this directory.
 
-   2.3 Install the Qt C++, Qt Core, Qt Extension Pack, Qt Qml, and Qt UI from Qt Group
-
-   2.4 Put in a Qt "Hello World" source code by copying/pasting/editing.
-   Maybe get Claude.ai to write it for you. Or use what we already have in
-   this directory.
-
-   2.5 Set up a CMakeLists.txt file. (Claude.ai may already have written one
+   2.3 Set up a CMakeLists.txt file. (Claude.ai may already have written one
    for you. There's one already provided in this directory.)
 
-   2.6 Press C-Shift-P and type/select: CMake: Select Kit to choose the
+   2.4 Press C-Shift-P and type/select: CMake: Select Kit to choose the
    compiler.
       Windows: Visual Studio Community 2022 Release amd64-x86  or  gcc
       Mac: clang
 
-   2.7 Windows only:
-      Go to settings (click the gear icon in the lower left of the VSCode window).
-      Search for "cmake configure args". Click Add Item. Put in:
+   2.5 Windows only:
+      Go to settings (click the gear icon in the lower left of the VSCode
+      window).  Search for "cmake configure args". Click Add Item. Put in:
          C:\Qt\6.8.2\msvc2022_64
       and click OK.
 
-      In your Windows environment variables (Windows+X System, Advanced System
-      Settings, Environment Variables):
+      In your Windows environment variables (Windows+X, System, Advanced
+      System Settings, Environment Variables):
          Add C:\Qt64\msvc2022_64\bin to Path
          Make a new environment variable, CMAKE_PREFIX_PATH, and set it to
          C:\Qt64\msvc2022_64
@@ -71,7 +74,7 @@ These instructions are not complete. They're our best approximation as of
 
       Restart VSCode.
 
-   2.8 Press C-Shift-P and type/select: CMake: Configure to get VSCode to
+   2.6 Press C-Shift-P and type/select: CMake: Configure to get VSCode to
    read your CMakeLists.txt file. You'll need to do this each time you
    modify CMakeLists.txt.
 
