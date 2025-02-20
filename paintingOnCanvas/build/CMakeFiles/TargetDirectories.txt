@@ -1,0 +1,5 @@
+/Users/thomasbecannon/Downloads/356QT-TB/paintingOnCanvas/build/CMakeFiles/myproject.dir
+/Users/thomasbecannon/Downloads/356QT-TB/paintingOnCanvas/build/CMakeFiles/edit_cache.dir
+/Users/thomasbecannon/Downloads/356QT-TB/paintingOnCanvas/build/CMakeFiles/rebuild_cache.dir
+/Users/thomasbecannon/Downloads/356QT-TB/paintingOnCanvas/build/CMakeFiles/myproject_autogen_timestamp_deps.dir
+/Users/thomasbecannon/Downloads/356QT-TB/paintingOnCanvas/build/CMakeFiles/myproject_autogen.dir
