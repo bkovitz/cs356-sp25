@@ -78,6 +78,11 @@ These instructions are not complete. They're our best approximation as of
    read your CMakeLists.txt file. You'll need to do this each time you
    modify CMakeLists.txt.
 
+   2.7 Test that your set-up works by building and running the little Qt
+   app. Click the right-pointing triangle in the status line at the bottom
+   of the VSCode window, or select Run|Run without Debugging from the
+   top pull-down menu, or, on Windows hit Ctrl-Shift-F5, on Mac hit Ctrl-F5.
+
 ----
 THE BELOW MIGHT ALL BE FIXED NOW  (19-Feb-2025)
 
