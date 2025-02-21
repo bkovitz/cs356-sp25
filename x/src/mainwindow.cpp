@@ -33,7 +33,6 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
     QPointF point = event->position();
     std::cout << "mouse has been pressed" << std::endl;
     std::cout << point.x() << " " << point.y() << std::endl;
-    float tex, tey;
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {

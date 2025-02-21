@@ -1,3 +1,5 @@
-C:/Users/mtomm/Documents/home/class/cs_356/cs356-sp25/paintingOnCanvas/build/CMakeFiles/myproject.dir
-C:/Users/mtomm/Documents/home/class/cs_356/cs356-sp25/paintingOnCanvas/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/mtomm/Documents/home/class/cs_356/cs356-sp25/paintingOnCanvas/build/CMakeFiles/ZERO_CHECK.dir
+/Users/thomasbecannon/Downloads/356QT-TB/paintingOnCanvas/build/CMakeFiles/myproject.dir
+/Users/thomasbecannon/Downloads/356QT-TB/paintingOnCanvas/build/CMakeFiles/edit_cache.dir
+/Users/thomasbecannon/Downloads/356QT-TB/paintingOnCanvas/build/CMakeFiles/rebuild_cache.dir
+/Users/thomasbecannon/Downloads/356QT-TB/paintingOnCanvas/build/CMakeFiles/myproject_autogen_timestamp_deps.dir
+/Users/thomasbecannon/Downloads/356QT-TB/paintingOnCanvas/build/CMakeFiles/myproject_autogen.dir
