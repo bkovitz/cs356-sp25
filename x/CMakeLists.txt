@@ -35,3 +35,24 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE TRUE
 )
+
+project(minimalScene VERSION 1.0.0 LANGUAGES CXX)
+
+# Add executable
+add_executable(${PROJECT_NAME}
+    src/main2.cpp
+)
+
+# Include directories
+target_include_directories(${PROJECT_NAME} PRIVATE include)
+
+# Link Qt libraries
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt::Core
+    Qt::Widgets
+)
+
+# Specify MACOSX_BUNDLE for proper app bundle creation on macOS
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    MACOSX_BUNDLE TRUE
+)
