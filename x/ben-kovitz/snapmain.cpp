@@ -17,20 +17,17 @@ public:
 
   void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override {
     QGraphicsRectItem::mouseMoveEvent(event);
-    //setPos(nearestSnapPoint(event));
     addSnapHint(event);
-    // auto snapPoint = nearestSnapPoint(event);
-    // scene()->addItem(new QGraphicsEllipseItem(
-    //   snapPoint.x(), snapPoint.y(), 2, 2
-    // ));
+  }
+
+  void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override {
+    QGraphicsRectItem::mouseReleaseEvent(event);
+    removeSnapHint();
+    setPos(nearestSnapPoint(event));
   }
 
   void addSnapHint(QGraphicsSceneMouseEvent* event) {
-    if (snapHint) {
-      scene()->removeItem(snapHint);
-      delete snapHint;
-      snapHint = nullptr;
-    }
+    removeSnapHint();
     auto snapPoint = nearestSnapPoint(event);
     snapHint = new QGraphicsEllipseItem(snapPoint.x(), snapPoint.y(), 3, 3);
     snapHint->setBrush(Qt::red);
@@ -38,17 +35,12 @@ public:
     scene()->addItem(snapHint);
   }
 
-  void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override {
-    QGraphicsRectItem::mouseReleaseEvent(event);
-    // qreal x = event->scenePos().x();
-    // qreal y = event->scenePos().y();
-    // setPos(round(x / 100) * 100, round(y / 100) * 100);
+  void removeSnapHint() {
     if (snapHint) {
       scene()->removeItem(snapHint);
       delete snapHint;
       snapHint = nullptr;
     }
-    setPos(nearestSnapPoint(event));
   }
 
   QPointF nearestSnapPoint(QGraphicsSceneMouseEvent* event) {
