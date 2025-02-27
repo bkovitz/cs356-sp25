@@ -6,6 +6,16 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsSceneMouseEvent>
 
+std::ostream& operator<<(std::ostream& os, const QPointF& point) {
+  os << "(" << point.x() << ", " << point.y() << ")";
+  return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const QRectF& rect) {
+  os << "{" << rect.x() << ", " << rect.y() << ", " << rect.width() << ", " << rect.height() << "}";
+  return os;
+}
+
 class Block : public QGraphicsRectItem {
   QAbstractGraphicsShapeItem* snapHint = nullptr;
 public:
@@ -15,15 +25,26 @@ public:
     setFlag(QGraphicsItem::ItemIsMovable);
   }
 
+  QPointF loc() const {
+    return QPointF(
+      boundingRect().center().x() + pos().x(),
+      boundingRect().center().y() + pos().y()
+    );
+  }
+
   void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override {
     QGraphicsRectItem::mouseMoveEvent(event);
     addSnapHint(event);
+    std::cout << "pos: " << pos() << ' ' << "loc: " << loc() << std::endl;
   }
+
+  // NEXT write pos2loc
 
   void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override {
     QGraphicsRectItem::mouseReleaseEvent(event);
     removeSnapHint();
     setPos(nearestSnapPoint(event));
+    std::cout << "pos: " << pos() << ' ' << "loc: " << loc() << std::endl;
   }
 
   void addSnapHint(QGraphicsSceneMouseEvent* event) {
@@ -33,6 +54,7 @@ public:
     snapHint->setBrush(Qt::red);
     snapHint->setPen(Qt::NoPen);
     scene()->addItem(snapHint);
+    //std::cout << boundingRect().center() << std::endl;
   }
 
   void removeSnapHint() {
