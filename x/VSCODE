@@ -59,20 +59,35 @@ These instructions are not complete. They're our best approximation as of
       Windows: Visual Studio Community 2022 Release amd64-x86  or  gcc
       Mac: clang
 
-   2.5 Windows only:
-      Go to settings (click the gear icon in the lower left of the VSCode
-      window).  Search for "cmake configure args". Click Add Item. Put in:
-         C:\Qt\6.8.2\msvc2022_64
-      and click OK.
+   2.5 Tell CMake where to find Qt.
 
-      In your Windows environment variables (Windows+X, System, Advanced
-      System Settings, Environment Variables):
-         Add C:\Qt64\msvc2022_64\bin to Path
-         Make a new environment variable, CMAKE_PREFIX_PATH, and set it to
-         C:\Qt64\msvc2022_64
-      You can set either the user or the system environment variables.
+      Windows:
+         Go to settings (click the gear icon in the lower left of the VSCode
+         window).  Search for "cmake configure args". Click Add Item. Put in:
+            C:\Qt\6.8.2\msvc2022_64
+         and click OK.
 
-      Restart VSCode.
+         In your Windows environment variables (Windows+X, System, Advanced
+         System Settings, Environment Variables):
+            Add C:\Qt64\msvc2022_64\bin to Path
+            Make a new environment variable, CMAKE_PREFIX_PATH, and set it to
+            C:\Qt64\msvc2022_64
+         You can set either the user or the system environment variables.
+
+         Restart VSCode.
+
+      MacOS:
+         Hit Cmd-, to edit settings, search for "cmake", find "CMake:
+         Configure Settings" and click on "Edit in settings.json". Then
+         add this:
+
+         {
+             ...
+             "cmake.configureSettings": {
+               "Qt6_DIR": "/path/to/Qt/6.8.2/macos/lib/cmake/Qt6"
+             }
+             ...
+         }
 
    2.6 Press C-Shift-P and type/select: CMake: Configure to get VSCode to
    read your CMakeLists.txt file. You'll need to do this each time you

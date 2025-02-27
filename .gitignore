@@ -34,3 +34,6 @@
 *.exe
 *.out
 *.app
+
+# Apple-specific
+.DS_Store
