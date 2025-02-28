@@ -20,7 +20,7 @@ class Block : public QGraphicsRectItem {
   QAbstractGraphicsShapeItem* snapHint = nullptr;
 public:
   Block(QGraphicsItem* parent = nullptr) : QGraphicsRectItem(parent) {
-    setRect(0, 0, 100, 100);
+    setRect(-50, -50, 100, 100);
     setBrush(Qt::blue);
     setFlag(QGraphicsItem::ItemIsMovable);
   }
