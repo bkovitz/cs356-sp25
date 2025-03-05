@@ -4,6 +4,9 @@
 #include <QApplication>
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
+#include <QPalette>
+#include <QStyle>
+#include <QStyleHints>
 
 using namespace std;
 const int gridBlockWidth   = 100;
@@ -78,8 +81,7 @@ int main(int argc, char *argv[])
     };
 
     QApplication app(argc, argv);
-    // MainWindow window;
-    // window.show();
+    QApplication::styleHints()->setColorScheme(Qt::ColorScheme::Light);
 
     QGraphicsScene scene(0, 0, 400, 300);
     scene.addText("Hello, world!");
