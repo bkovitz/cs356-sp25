@@ -12,6 +12,9 @@ using namespace std;
 const int gridBlockWidth   = 100;
 const int gridBlockHeight  = 100;
 
+const int sceneWidth = 800;
+const int sceneHeight = 300;
+
 ostream& operator<<(ostream& os, const QPointF& p) {
     return os << "(" << p.x() << ", " << p.y() << ")";
 }
@@ -83,8 +86,15 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QApplication::styleHints()->setColorScheme(Qt::ColorScheme::Light);
 
-    QGraphicsScene scene(0, 0, 400, 300);
+    QGraphicsScene scene(0, 0, sceneWidth, sceneHeight);
     scene.addText("Hello, world!");
+
+    for(int i = 0; i < sceneWidth / gridBlockWidth; i++) {
+        scene.addLine(i * gridBlockWidth, 0, i * gridBlockWidth, sceneHeight, QPen(Qt::gray));
+    }
+    for(int i = 0; i < sceneHeight / gridBlockHeight; i++) {
+        scene.addLine(0, i * gridBlockHeight, sceneWidth, i * gridBlockHeight, QPen(Qt::gray));
+    }
     
     // Original block
     Block* block = new Block();
