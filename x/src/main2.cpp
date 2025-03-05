@@ -85,10 +85,11 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     QApplication::styleHints()->setColorScheme(Qt::ColorScheme::Light);
-
+    
     QGraphicsScene scene(0, 0, sceneWidth, sceneHeight);
     scene.addText("Hello, world!");
 
+    // This is the git code
     for(int i = 0; i < sceneWidth / gridBlockWidth; i++) {
         scene.addLine(i * gridBlockWidth, 0, i * gridBlockWidth, sceneHeight, QPen(Qt::gray));
     }
