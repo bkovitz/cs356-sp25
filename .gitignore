@@ -37,3 +37,6 @@
 
 # Apple-specific
 .DS_Store
+
+# local
+.vscode/
