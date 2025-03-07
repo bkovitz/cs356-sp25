@@ -12,11 +12,19 @@ using namespace std;
 const int gridBlockWidth   = 100;
 const int gridBlockHeight  = 100;
 
-const int sceneWidth = 800;
-const int sceneHeight = 300;
+const int sceneWidth = 200000;
+const int sceneHeight = 200000;
 
 ostream& operator<<(ostream& os, const QPointF& p) {
     return os << "(" << p.x() << ", " << p.y() << ")";
+}
+
+ostream& operator<<(ostream& os, const QRectF& r) {
+    return os << "(" << r.x() << ", " << r.y() << ", " << r.width() << ", " << r.height() << ")";
+}
+
+ostream& operator<<(ostream& os, const QRect& r) {
+    return os << "(" << r.x() << ", " << r.y() << ", " << r.width() << ", " << r.height() << ")";
 }
 
 int main(int argc, char *argv[])
@@ -36,7 +44,7 @@ int main(int argc, char *argv[])
             QGraphicsRectItem::mouseReleaseEvent(event);
             // setPos(300, 300);
 
-            cout << event->scenePos() << endl;
+            cout << event->pos() << endl;
             setPos(nearestSnapPoint(scenePos()));
 
             removeShadow();
@@ -46,6 +54,11 @@ int main(int argc, char *argv[])
         {
             QGraphicsRectItem::mouseMoveEvent(event);
             updateShadow();
+            cout << "scene()->sceneRect():" << scene()->sceneRect() << endl;
+            // cout << scene()->views()[0]->viewport()->rect() << endl;
+
+            // Printing scene relative coordinates
+            cout << scene()->views()[0]->mapToScene(0,0) << endl;
 
         }
         QPointF nearestSnapPoint(const QPointF& pos)
@@ -89,7 +102,12 @@ int main(int argc, char *argv[])
     QGraphicsScene scene(0, 0, sceneWidth, sceneHeight);
     scene.addText("Hello, world!");
 
-    // This is the git code
+    // This is the line drawing code (Might need to use paintEvent in QGraphicsScene)
+    
+    // Two Possible Approaches (For attempting implementation from home before next Tuesday):
+
+    // 1) Subclass for QGraphicsView and QGraphicsScene. Override methods so view called scene when rect changes.
+    // 2) New Class: ViewMonitor: Connects signal or property between a view and a scene so scene is notified when rect changes.
     for(int i = 0; i < sceneWidth / gridBlockWidth; i++) {
         scene.addLine(i * gridBlockWidth, 0, i * gridBlockWidth, sceneHeight, QPen(Qt::gray));
     }
@@ -109,6 +127,7 @@ int main(int argc, char *argv[])
 
     QGraphicsView view(&scene);
     view.show();
+    view.setDragMode(QGraphicsView::ScrollHandDrag);
 
     return app.exec();
 }
