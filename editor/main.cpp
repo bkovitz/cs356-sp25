@@ -2,18 +2,19 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QApplication>
-#include <QGraphicsRectItem>
+#include <QGraphicsPolygonItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QPalette>
 #include <QStyle>
 #include <QStyleHints>
+#include <QKeyEvent>
 
 using namespace std;
 const int gridBlockWidth   = 100;
 const int gridBlockHeight  = 100;
 
-const int sceneWidth = 200000;
-const int sceneHeight = 200000;
+const int sceneWidth = 600;
+const int sceneHeight = 300;
 
 ostream& operator<<(ostream& os, const QPointF& p) {
     return os << "(" << p.x() << ", " << p.y() << ")";
@@ -27,21 +28,20 @@ ostream& operator<<(ostream& os, const QRect& r) {
     return os << "(" << r.x() << ", " << r.y() << ", " << r.width() << ", " << r.height() << ")";
 }
 
-int main(int argc, char *argv[])
-{
-    class Block : public QGraphicsRectItem
+
+class Block : public QGraphicsPolygonItem
     {
     public:
-        Block(QGraphicsItem* parent = nullptr) : QGraphicsRectItem(parent) {}
+        Block(QGraphicsItem* parent = nullptr) : QGraphicsPolygonItem(parent) {}
         void mousePressEvent(QGraphicsSceneMouseEvent* event) override {
-            QGraphicsRectItem::mousePressEvent(event);
+            QGraphicsPolygonItem::mousePressEvent(event);
             updateShadow();
             
         }
         void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override
         {
             std::cout << "Block released!" << std::endl;
-            QGraphicsRectItem::mouseReleaseEvent(event);
+            QGraphicsPolygonItem::mouseReleaseEvent(event);
             // setPos(300, 300);
 
             cout << event->pos() << endl;
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
         }
         void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override
         {
-            QGraphicsRectItem::mouseMoveEvent(event);
+            QGraphicsPolygonItem::mouseMoveEvent(event);
             updateShadow();
             cout << "scene()->sceneRect():" << scene()->sceneRect() << endl;
             // cout << scene()->views()[0]->viewport()->rect() << endl;
@@ -71,11 +71,12 @@ int main(int argc, char *argv[])
         {
             if(!shadow)
             {
-                shadow = new QGraphicsRectItem();
-                shadow->setRect(rect());
+                shadow = new QGraphicsPolygonItem();
+                shadow->setPolygon(polygon());
                 shadow->setBrush(Qt::NoBrush);
                 shadow->setPen(QPen(Qt::black, 1, Qt::DashLine));
                 shadow->setPos(pos());
+                shadow->setZValue(10);
                 scene()->addItem(shadow);
             }
             else
@@ -93,11 +94,72 @@ int main(int argc, char *argv[])
             }
         }
     private:
-        QGraphicsRectItem* shadow = nullptr;
-    };
+        QGraphicsPolygonItem* shadow = nullptr;
+};
+
+
+
+
+class EditorView : public QGraphicsView
+{
+public:
+    EditorView(QGraphicsScene* scene) : QGraphicsView(scene) {}
+    void keyPressEvent(QKeyEvent* event) override
+    {
+        QGraphicsView::keyPressEvent(event);
+        if(event->key() == Qt::Key_Space)
+        {
+           // std::cout << "Space key pressed!" << std::endl;
+        }
+        std::cout << "Key pressed: " << event->key() << std::endl;
+
+        // Original block
+        Block* block = new Block();
+        QPolygonF poly;
+
+        switch (event->key())
+        {
+            case Qt::Key_R:
+                poly << QPointF(-75, -50) << QPointF(75, -50) << QPointF(75, 50) << QPointF(-75, 50);
+                break;
+            case Qt::Key_T:
+                poly << QPointF(-50, 50) << QPointF(0, -50) << QPointF(50, 50);
+                break;
+            case Qt::Key_C:
+                {
+                QPainterPath path;
+                path.addEllipse(-50, -50, 100, 100);
+                poly = path.toFillPolygon();
+                }
+                break;
+            case Qt::Key_D:
+                poly << QPointF(-50, 0) << QPointF(0, -50) << QPointF(50, 0) << QPointF(0, 50);
+                break;
+            case Qt::Key_S:
+                poly << QPointF(-50, -50) << QPointF(50, -50) << QPointF(50, 50) << QPointF(-50, 50);
+                break;
+        }
+
+        
+        block->setPolygon(poly);
+        block->setPos(100, 100);
+        scene()->addItem(block);
+
+        block->setBrush(Qt::blue);
+        block->setPen(Qt::NoPen);
+        block->setFlag(QGraphicsItem::ItemIsMovable);
+    }
+};
+
+
+
+
+int main(int argc, char *argv[])
+{
+    
 
     QApplication app(argc, argv);
-    QApplication::styleHints()->setColorScheme(Qt::ColorScheme::Light);
+    // QApplication::styleHints()->setColorScheme(Qt::ColorScheme::Light);
     
     QGraphicsScene scene(0, 0, sceneWidth, sceneHeight);
     scene.addText("Hello, world!");
@@ -115,19 +177,10 @@ int main(int argc, char *argv[])
         scene.addLine(0, i * gridBlockHeight, sceneWidth, i * gridBlockHeight, QPen(Qt::gray));
     }
     
-    // Original block
-    Block* block = new Block();
-    block->setRect(-50, -50, 100, 100);
-    block->setPos(100, 100);
-    scene.addItem(block);
-
-    block->setBrush(Qt::blue);
-    block->setPen(Qt::NoPen);
-    block->setFlag(QGraphicsItem::ItemIsMovable);
-
-    QGraphicsView view(&scene);
+    EditorView view(&scene);
     view.show();
     view.setDragMode(QGraphicsView::ScrollHandDrag);
 
     return app.exec();
 }
+
