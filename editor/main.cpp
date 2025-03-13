@@ -8,6 +8,7 @@
 #include <QStyle>
 #include <QStyleHints>
 #include <QKeyEvent>
+#include <QTextDocument>
 
 using namespace std;
 const int gridBlockWidth   = 100;
@@ -27,6 +28,39 @@ ostream& operator<<(ostream& os, const QRectF& r) {
 ostream& operator<<(ostream& os, const QRect& r) {
     return os << "(" << r.x() << ", " << r.y() << ", " << r.width() << ", " << r.height() << ")";
 }
+
+class ShapeLabel : public QGraphicsTextItem
+{
+    public:
+        ShapeLabel(QGraphicsItem* parent = nullptr) : QGraphicsTextItem(parent) {
+            // these three lines make the text align to the center
+            QTextOption option = document()->defaultTextOption();
+            option.setAlignment(Qt::AlignCenter);
+            document()->setDefaultTextOption(option);
+
+            // this line makes the text interactable
+            setTextInteractionFlags(Qt::TextEditorInteraction);
+        
+            updateSize();
+        }
+
+        void updateSize() {
+            // sets the text's boundingRect to a reasonable size
+            adjustSize();
+
+            // centers the text within the parent item
+            // (0, 0) for this label means the top left will be at the center of the parent
+            setPos(boundingRect().width() / -2, boundingRect().height() / -2);
+        }
+
+        // update label when typing
+        void keyPressEvent(QKeyEvent* event) override {
+            // do what it normally does
+            QGraphicsTextItem::keyPressEvent(event);
+
+            updateSize();
+        }
+};
 
 
 class Block : public QGraphicsPolygonItem
@@ -60,6 +94,17 @@ class Block : public QGraphicsPolygonItem
             // Printing scene relative coordinates
             cout << scene()->views()[0]->mapToScene(0,0) << endl;
 
+        }
+        void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override
+        {
+            QGraphicsPolygonItem::mouseDoubleClickEvent(event);
+
+            if (!label)
+            {
+                label = new ShapeLabel(this);
+
+            }
+            label->setFocus();
         }
         QPointF nearestSnapPoint(const QPointF& pos)
         {
@@ -95,8 +140,8 @@ class Block : public QGraphicsPolygonItem
         }
     private:
         QGraphicsPolygonItem* shadow = nullptr;
+        ShapeLabel* label = nullptr;
 };
-
 
 
 
