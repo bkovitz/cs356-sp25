@@ -14,8 +14,8 @@ using namespace std;
 const int gridBlockWidth   = 100;
 const int gridBlockHeight  = 100;
 
-const int sceneWidth = 600;
-const int sceneHeight = 300;
+const int sceneWidth = 20000;
+const int sceneHeight = 20000;
 
 ostream& operator<<(ostream& os, const QPointF& p) {
     return os << "(" << p.x() << ", " << p.y() << ")";
@@ -29,12 +29,10 @@ ostream& operator<<(ostream& os, const QRect& r) {
     return os << "(" << r.x() << ", " << r.y() << ", " << r.width() << ", " << r.height() << ")";
 }
 
-// made a subclass to override the keyPressEvent so the label updates while you type
-class ItemLabel : public QGraphicsTextItem
+class ShapeLabel : public QGraphicsTextItem
 {
     public:
-        // constructor matching super
-        ItemLabel(const QString& text, QGraphicsItem* parent = nullptr) : QGraphicsTextItem(text, parent) {
+        ShapeLabel(QGraphicsItem* parent = nullptr) : QGraphicsTextItem(parent) {
             // these three lines make the text align to the center
             QTextOption option = document()->defaultTextOption();
             option.setAlignment(Qt::AlignCenter);
@@ -42,10 +40,10 @@ class ItemLabel : public QGraphicsTextItem
 
             // this line makes the text interactable
             setTextInteractionFlags(Qt::TextEditorInteraction);
-
+        
             updateSize();
         }
-        
+
         void updateSize() {
             // sets the text's boundingRect to a reasonable size
             adjustSize();
@@ -64,6 +62,7 @@ class ItemLabel : public QGraphicsTextItem
         }
 };
 
+
 class Block : public QGraphicsPolygonItem
     {
     public:
@@ -77,6 +76,7 @@ class Block : public QGraphicsPolygonItem
         {
             std::cout << "Block released!" << std::endl;
             QGraphicsPolygonItem::mouseReleaseEvent(event);
+            // setPos(300, 300);
 
             cout << event->pos() << endl;
             setPos(nearestSnapPoint(scenePos()));
@@ -89,21 +89,21 @@ class Block : public QGraphicsPolygonItem
             QGraphicsPolygonItem::mouseMoveEvent(event);
             updateShadow();
             cout << "scene()->sceneRect():" << scene()->sceneRect() << endl;
+            // cout << scene()->views()[0]->viewport()->rect() << endl;
+
+            // Printing scene relative coordinates
             cout << scene()->views()[0]->mapToScene(0,0) << endl;
 
         }
-        // when we double click the item
-        void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) {
-            // do what it normally does
+        void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override
+        {
             QGraphicsPolygonItem::mouseDoubleClickEvent(event);
 
-            // if there's no label yet, create it
-            if(!label) {
-                // apparently constructor adds it to scene as well
-                label = new ItemLabel("", this);
-            }
+            if (!label)
+            {
+                label = new ShapeLabel(this);
 
-            // focus on label == start typing in it
+            }
             label->setFocus();
         }
         QPointF nearestSnapPoint(const QPointF& pos)
@@ -140,14 +140,72 @@ class Block : public QGraphicsPolygonItem
         }
     private:
         QGraphicsPolygonItem* shadow = nullptr;
-        // store it just in case
-        ItemLabel* label = nullptr;
+        ShapeLabel* label = nullptr;
 };
+
+
 
 class EditorView : public QGraphicsView
 {
 public:
     EditorView(QGraphicsScene* scene) : QGraphicsView(scene) {}
+
+    // override to get scroll input
+    void wheelEvent(QWheelEvent* event) {
+        // not calling super method just because it makes the sidebar scroll as well
+        //QGraphicsView::wheelEvent(event);
+
+        // arbitrary values, might want to change depending on scene size or input device
+        double MAX_SCALE = 3.0;
+        double MIN_SCALE = 0.1;
+        double SCROLL_DIVISOR = 500.0;
+
+        // m11 is the horizontal scaling factor for some reason
+        // and our horizontal and vertical scaling should be the same
+        qreal currentScale = transform().m11();
+
+        // get the amount of scroll in the y direction and divide to make it smooth
+        double toScale = (event->angleDelta().y() / SCROLL_DIVISOR);
+
+        // if the number is negative, the scroll is down
+        if(toScale < 0) {
+            // stop if already at minimum
+            if(currentScale <= MIN_SCALE) return;
+
+            // number is negative, but for scaling we want a fraction
+            toScale = 1 / ((toScale * -1) + 1);
+
+            // clamp to minimum
+            if(currentScale * toScale < MIN_SCALE) {
+                toScale = MIN_SCALE / currentScale;
+            }
+        }
+        // else scroll is up
+        else {
+            // stop if already at maximum
+            if(currentScale >= MAX_SCALE) return;
+
+            // add 1 to avoid fraction
+            toScale += 1;
+
+            // clamp to maximum
+            if(currentScale * toScale >= MAX_SCALE) {
+                toScale = MAX_SCALE / currentScale;
+            }
+        }
+
+        // save anchor, just in case
+        const ViewportAnchor anchor = transformationAnchor();
+
+        // set anchor to under mouse, so it 'zooms' where the mouse is
+        setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+        // scale both x and y the same amount
+        scale(toScale, toScale);
+
+        // restore original anchor, just in case
+        setTransformationAnchor(anchor);
+    }
+
     void keyPressEvent(QKeyEvent* event) override
     {
         QGraphicsView::keyPressEvent(event);
@@ -200,8 +258,6 @@ public:
 
 int main(int argc, char *argv[])
 {
-    
-
     QApplication app(argc, argv);
     // QApplication::styleHints()->setColorScheme(Qt::ColorScheme::Light);
     
