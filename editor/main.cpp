@@ -148,7 +148,19 @@ class Block : public QGraphicsPolygonItem
 class EditorView : public QGraphicsView
 {
 public:
-    EditorView(QGraphicsScene* scene) : QGraphicsView(scene) {}
+    EditorView(QGraphicsScene* scene) : QGraphicsView(scene) {
+        cursor = new QGraphicsPolygonItem();
+        QPolygonF cursorPolygon;
+        cursorPolygon << QPointF(0, 0) << QPointF(25, 0) << QPointF(0, 25);
+
+        cursor->setPolygon(cursorPolygon);
+        cursor->setPos(gridBlockWidth * 1, gridBlockHeight * 1);
+        cursor->setBrush(QColor(150, 150, 150, 255));
+        cursor->setPen(Qt::NoPen);
+        cursor->setZValue(9001);
+
+        scene->addItem(cursor);
+    }
     void keyPressEvent(QKeyEvent* event) override
     {
         QGraphicsView::keyPressEvent(event);
@@ -164,6 +176,18 @@ public:
 
         switch (event->key())
         {
+            case Qt::Key_Left:
+                cursor->moveBy(-gridBlockWidth, 0);
+                break;
+            case Qt::Key_Right:
+                cursor->moveBy(gridBlockWidth, 0);
+                break;
+            case Qt::Key_Up:
+                cursor->moveBy(0, -gridBlockHeight);
+                break;
+            case Qt::Key_Down:
+                cursor->moveBy(0, gridBlockHeight);
+                break;
             case Qt::Key_R:
                 poly << QPointF(-75, -50) << QPointF(75, -50) << QPointF(75, 50) << QPointF(-75, 50);
                 break;
@@ -178,22 +202,53 @@ public:
                 }
                 break;
             case Qt::Key_D:
-                poly << QPointF(-50, 0) << QPointF(0, -50) << QPointF(50, 0) << QPointF(0, 50);
+                // poly << QPointF(-50, 0) << QPointF(0, -50) << QPointF(50, 0) << QPointF(0, 50);
+                {
+                    QPainterPath path;
+                    path.addEllipse(-10, -10, 20, 20);
+                    poly = path.toFillPolygon();
+                }
                 break;
             case Qt::Key_S:
                 poly << QPointF(-50, -50) << QPointF(50, -50) << QPointF(50, 50) << QPointF(-50, 50);
                 break;
+            case Qt::Key_X:
+                QList current_Items = scene()->items(cursor->scenePos());
+                for (QGraphicsItem* item : current_Items)
+                {
+                    if (item != cursor && item->type() == QGraphicsPolygonItem::Type)
+        
+                    {
+                        scene()->removeItem(item);
+                        delete item;
+                        break;
+                    }
+                }
+            
+                //scene()->removeItem(scene()->itemAt(cursor->scenePos(), QTransform()));
+            
+                break;
+
+            /* case Qt::Key_V:
+            {
+                scene()->removeItem(cursor);
+                cursor = nullptr;
+                    break;
+            }*/
         }
 
         
         block->setPolygon(poly);
-        block->setPos(100, 100);
+        block->setPos(cursor->scenePos().x(), cursor->scenePos().y());
         scene()->addItem(block);
 
         block->setBrush(Qt::blue);
         block->setPen(Qt::NoPen);
         block->setFlag(QGraphicsItem::ItemIsMovable);
     }
+
+    private:
+        QGraphicsPolygonItem* cursor;
 };
 
 
@@ -221,6 +276,8 @@ int main(int argc, char *argv[])
     for(int i = 0; i < sceneHeight / gridBlockHeight; i++) {
         scene.addLine(0, i * gridBlockHeight, sceneWidth, i * gridBlockHeight, QPen(Qt::gray));
     }
+
+
     
     EditorView view(&scene);
     view.show();
