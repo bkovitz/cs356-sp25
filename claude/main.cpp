@@ -48,11 +48,16 @@ class GraphScene : public QGraphicsScene {
 public:
     GraphScene(QObject *parent = nullptr) : QGraphicsScene(parent), mode(NormalMode), firstNode(nullptr) {
         cursorPos = QPointF(100, 100);
+        cursorItem = addRect(cursorPos.x() - 5, cursorPos.y() - 5, 10, 10, QPen(Qt::black), QBrush(Qt::black));
     }
 
 protected:
     void keyPressEvent(QKeyEvent *event) override {
-        if (mode == NormalMode) {
+        if (event->key() == Qt::Key_Left) moveCursor(-100, 0);
+        else if (event->key() == Qt::Key_Right) moveCursor(100, 0);
+        else if (event->key() == Qt::Key_Up) moveCursor(0, -100);
+        else if (event->key() == Qt::Key_Down) moveCursor(0, 100);
+        else if (mode == NormalMode) {
             if (event->key() == Qt::Key_N) mode = NodeMode;
             else if (event->key() == Qt::Key_E) mode = EdgeMode;
         } else if (mode == NodeMode) {
@@ -168,9 +173,15 @@ public:
         }
     }
 
+    void moveCursor(int dx, int dy) {
+        cursorPos += QPointF(dx, dy);
+        cursorItem->setRect(cursorPos.x() - 5, cursorPos.y() - 5, 10, 10);
+    }
+
 private:
     Mode mode;
     QPointF cursorPos;
+    QGraphicsRectItem *cursorItem; // Cursor representation
     QString inputText;
     QList<NodeItem*> nodes;
     QList<EdgeItem*> edges;
