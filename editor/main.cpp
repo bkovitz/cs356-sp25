@@ -9,6 +9,7 @@
 #include <QStyleHints>
 #include <QKeyEvent>
 #include <QTextDocument>
+#include <QStatusBar>
 
 using namespace std;
 const int gridBlockWidth   = 100;
@@ -160,6 +161,13 @@ public:
         cursor->setZValue(9001);
 
         scene->addItem(cursor);
+
+        statusBar = new QStatusBar(this);
+        statusBar->setFixedHeight(20);
+        statusBar->setStyleSheet("background-color: #d3d3d3;");
+        statusBar->move(0, 0); // Move the status bar to the top-left corner
+        statusBar->resize(width(), 20); // Make it span the entire width of the window
+        updateStatusBar();
     }
     void keyPressEvent(QKeyEvent* event) override
     {
@@ -171,8 +179,44 @@ public:
         std::cout << "Key pressed: " << event->key() << std::endl;
 
         // Original block
-        Block* block = new Block();
-        QPolygonF poly;
+        // Block* block = new Block();
+        // QPolygonF poly;
+
+        switch (mode)
+        {
+            case NORMAL_MODE:
+                switch(event->key())
+                {
+                    case Qt::Key_N:
+                        mode = NODE_MODE;
+                        break;
+                    case Qt::Key_E:
+                        mode = EDGE_MODE;
+                        break;
+                    case Qt::Key_G:
+                        toggleGrid();
+                        break;
+                }
+                break;
+            case NODE_MODE:
+                switch(event->key())
+                {
+                    case Qt::Key_Escape:
+                        mode = NORMAL_MODE;
+                        break;
+                }
+                break;
+            case EDGE_MODE:
+                switch(event->key())
+                {
+                    case Qt::Key_Escape:
+                        mode = NORMAL_MODE;
+                        break;
+                }
+                break;
+        }
+
+        updateStatusBar();
 
         switch (event->key())
         {
@@ -188,30 +232,30 @@ public:
             case Qt::Key_Down:
                 cursor->moveBy(0, gridBlockHeight);
                 break;
-            case Qt::Key_R:
-                poly << QPointF(-75, -50) << QPointF(75, -50) << QPointF(75, 50) << QPointF(-75, 50);
-                break;
-            case Qt::Key_T:
-                poly << QPointF(-50, 50) << QPointF(0, -50) << QPointF(50, 50);
-                break;
-            case Qt::Key_C:
-                {
-                QPainterPath path;
-                path.addEllipse(-50, -50, 100, 100);
-                poly = path.toFillPolygon();
-                }
-                break;
-            case Qt::Key_D:
-                // poly << QPointF(-50, 0) << QPointF(0, -50) << QPointF(50, 0) << QPointF(0, 50);
-                {
-                    QPainterPath path;
-                    path.addEllipse(-10, -10, 20, 20);
-                    poly = path.toFillPolygon();
-                }
-                break;
-            case Qt::Key_S:
-                poly << QPointF(-50, -50) << QPointF(50, -50) << QPointF(50, 50) << QPointF(-50, 50);
-                break;
+            // case Qt::Key_R:
+            //     poly << QPointF(-75, -50) << QPointF(75, -50) << QPointF(75, 50) << QPointF(-75, 50);
+            //     break;
+            // case Qt::Key_T:
+            //     poly << QPointF(-50, 50) << QPointF(0, -50) << QPointF(50, 50);
+            //     break;
+            // case Qt::Key_C:
+            //     {
+            //     QPainterPath path;
+            //     path.addEllipse(-50, -50, 100, 100);
+            //     poly = path.toFillPolygon();
+            //     }
+            //     break;
+            // case Qt::Key_D:
+            //     // poly << QPointF(-50, 0) << QPointF(0, -50) << QPointF(50, 0) << QPointF(0, 50);
+            //     {
+            //         QPainterPath path;
+            //         path.addEllipse(-10, -10, 20, 20);
+            //         poly = path.toFillPolygon();
+            //     }
+            //     break;
+            // case Qt::Key_S:
+            //     poly << QPointF(-50, -50) << QPointF(50, -50) << QPointF(50, 50) << QPointF(-50, 50);
+            //     break;
             case Qt::Key_X:
                 QList current_Items = scene()->items(cursor->scenePos());
                 for (QGraphicsItem* item : current_Items)
@@ -238,17 +282,46 @@ public:
         }
 
         
-        block->setPolygon(poly);
-        block->setPos(cursor->scenePos().x(), cursor->scenePos().y());
-        scene()->addItem(block);
+        // block->setPolygon(poly);
+        // block->setPos(cursor->scenePos().x(), cursor->scenePos().y());
+        // scene()->addItem(block);
 
-        block->setBrush(Qt::blue);
-        block->setPen(Qt::NoPen);
-        block->setFlag(QGraphicsItem::ItemIsMovable);
+        // block->setBrush(Qt::blue);
+        // block->setPen(Qt::NoPen);
+        // block->setFlag(QGraphicsItem::ItemIsMovable);
     }
 
     private:
         QGraphicsPolygonItem* cursor;
+        enum { NORMAL_MODE, NODE_MODE, EDGE_MODE } mode = NORMAL_MODE;
+
+        QStatusBar* statusBar;
+
+        void updateStatusBar() {
+            QString statusText;
+            switch (mode) {
+            case NORMAL_MODE:
+                statusText = "Mode: Normal";
+                break;
+            case NODE_MODE:
+                statusText = "Mode: Node (Press any key to type)";
+                break;
+            case EDGE_MODE:
+                statusText = "Mode: Edge (Select two nodes to connect)";
+                break;
+            }
+    
+            // if (currentNode) {
+            //     statusText += " | Selected Node: " + currentNode->label;
+            // }
+    
+            statusBar->showMessage(statusText);
+        }
+
+        void toggleGrid(){
+            
+        }
+        
 };
 
 
