@@ -10,6 +10,7 @@
 #include <QKeyEvent>
 #include <QTextDocument>
 #include <QStatusBar>
+#include <QList> //
 
 using namespace std;
 const int gridBlockWidth   = 100;
@@ -144,8 +145,6 @@ class Block : public QGraphicsPolygonItem
         ShapeLabel* label = nullptr;
 };
 
-
-
 class EditorView : public QGraphicsView
 {
 public:
@@ -171,6 +170,7 @@ public:
     }
     void keyPressEvent(QKeyEvent* event) override
     {
+        QRectF* rect;
         QGraphicsView::keyPressEvent(event);
         if(event->key() == Qt::Key_Space)
         {
@@ -291,10 +291,26 @@ public:
         // block->setFlag(QGraphicsItem::ItemIsMovable);
     }
 
+    void createGrid(){ //
+        for(int i = 0; i < sceneWidth / gridBlockWidth; i++) {
+            QLineF line(i * gridBlockWidth, 0, i * gridBlockWidth, sceneHeight);
+            QGraphicsLineItem* item = new QGraphicsLineItem(line);
+            gridLines.append(item);
+            scene()->addItem(item);
+        }
+        for(int i = 0; i < sceneHeight / gridBlockHeight; i++) {
+            QLineF line(0, i * gridBlockHeight, sceneWidth, i * gridBlockHeight);
+            QGraphicsLineItem* item = new QGraphicsLineItem(line);
+            gridLines.append(item);
+            scene()->addItem(item);
+        }
+    } //
+
     private:
         QGraphicsPolygonItem* cursor;
         enum { NORMAL_MODE, NODE_MODE, EDGE_MODE } mode = NORMAL_MODE;
-
+        QList<QGraphicsLineItem*> gridLines; //
+        bool gridVisible = true; //
         QStatusBar* statusBar;
 
         void updateStatusBar() {
@@ -318,14 +334,22 @@ public:
             statusBar->showMessage(statusText);
         }
 
-        void toggleGrid(){
-            
-        }
-        
+        void toggleGrid(){ //
+            if(gridVisible){
+                for(auto line : gridLines){
+                    line->setVisible(!gridVisible);
+                }
+                gridVisible = false;
+            }
+            else
+            {
+                for(auto line : gridLines){
+                    line->setVisible(!gridVisible);
+                }
+                gridVisible = true;
+            }
+        } //
 };
-
-
-
 
 int main(int argc, char *argv[])
 {
@@ -343,16 +367,15 @@ int main(int argc, char *argv[])
 
     // 1) Subclass for QGraphicsView and QGraphicsScene. Override methods so view called scene when rect changes.
     // 2) New Class: ViewMonitor: Connects signal or property between a view and a scene so scene is notified when rect changes.
-    for(int i = 0; i < sceneWidth / gridBlockWidth; i++) {
-        scene.addLine(i * gridBlockWidth, 0, i * gridBlockWidth, sceneHeight, QPen(Qt::gray));
-    }
-    for(int i = 0; i < sceneHeight / gridBlockHeight; i++) {
-        scene.addLine(0, i * gridBlockHeight, sceneWidth, i * gridBlockHeight, QPen(Qt::gray));
-    }
+    // for(int i = 0; i < sceneWidth / gridBlockWidth; i++) {
+    //     scene.addLine(i * gridBlockWidth, 0, i * gridBlockWidth, sceneHeight, QPen(Qt::gray));
+    // }
+    // for(int i = 0; i < sceneHeight / gridBlockHeight; i++) {
+    //     scene.addLine(0, i * gridBlockHeight, sceneWidth, i * gridBlockHeight, QPen(Qt::gray));
+    // }
 
-
-    
     EditorView view(&scene);
+    view.createGrid();
     view.show();
     view.setDragMode(QGraphicsView::ScrollHandDrag);
 
