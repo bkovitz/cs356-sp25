@@ -204,6 +204,11 @@ public:
                     case Qt::Key_Escape:
                         mode = NORMAL_MODE;
                         break;
+                    default:
+                        if (!event->text().isEmpty()) {
+                            addTextToNode(event->text());
+                            //cout << "*" << event->text().toStdString() << "*" << endl;
+                        }
                 }
                 break;
             case EDGE_MODE:
@@ -312,6 +317,10 @@ public:
         QList<QGraphicsLineItem*> gridLines; //
         bool gridVisible = true; //
         QStatusBar* statusBar;
+
+        void addTextToNode(const QString& text) {
+            
+        } 
 
         void updateStatusBar() {
             QString statusText;
