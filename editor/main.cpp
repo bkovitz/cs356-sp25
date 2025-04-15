@@ -10,7 +10,8 @@
 #include <QKeyEvent>
 #include <QTextDocument>
 #include <QStatusBar>
-#include <QList> //
+#include <QList>
+#include "Node.h"
 
 using namespace std;
 const int gridBlockWidth   = 100;
@@ -157,7 +158,7 @@ public:
         cursor->setPos(gridBlockWidth * 1, gridBlockHeight * 1);
         cursor->setBrush(QColor(150, 150, 150, 255));
         cursor->setPen(Qt::NoPen);
-        cursor->setZValue(9001);
+        cursor->setZValue(1);
 
         scene->addItem(cursor);
 
@@ -205,10 +206,21 @@ public:
                         mode = NORMAL_MODE;
                         break;
                     default:
-                        if (!event->text().isEmpty()) {
-                            addTextToNode(event->text());
-                            //cout << "*" << event->text().toStdString() << "*" << endl;
+                        bool isACharacter = !event->text().isEmpty();
+
+                        if (isACharacter) {
+                            Node* node = nodeAtCurrentLocation();
+
+                            if(node != nullptr) {
+                                node->addTextToNode(event->text());
+                                //cout << "*" << event->text().toStdString() << "*" << endl;
+                            }else {
+                                node = createNodeAtCursor();
+                                node->addTextToNode(event->text());
+                            }
+                            
                         }
+
                 }
                 break;
             case EDGE_MODE:
@@ -318,9 +330,25 @@ public:
         bool gridVisible = true; //
         QStatusBar* statusBar;
 
-        void addTextToNode(const QString& text) {
-            
-        } 
+        Node* createNodeAtCursor() {
+            int x = cursor->x();
+            int y = cursor->y();
+            Node* node = new Node(x, y);
+            scene()->addItem(node);
+            return node;
+        }
+
+        Node* nodeAtCurrentLocation() {
+            QList current_Items = scene()->items(cursor->scenePos());
+            for (QGraphicsItem* item : current_Items)
+            {
+                if (item != cursor && item->type() == QGraphicsTextItem::Type)
+                {
+                    return static_cast<Node*>(item);
+                }
+            }
+            return nullptr;
+        }
 
         void updateStatusBar() {
             QString statusText;

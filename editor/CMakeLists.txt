@@ -18,6 +18,7 @@ endif()
 # Add executable
 add_executable(${PROJECT_NAME}
     main.cpp
+    Node.cpp
 )
 
 # Include directories
