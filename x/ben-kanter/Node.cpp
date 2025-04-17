@@ -9,16 +9,13 @@ void Node::keyPressEvent(QKeyEvent* event) {
         case Qt::Key_Return:
             clearFocus();
             break;
-        case Qt::Key_Backspace:
-            // if there's no text, delete the node
-            if(toPlainText() == "") {
-                scene()->removeItem(this);
-                delete this;
-                break;
-            }
-            // else act normally
         default:
             QGraphicsTextItem::keyPressEvent(event);
             break;
     }
+    centerText();
+}
+
+void Node::centerText(){
+    setPos(centerPos.x() + boundingRect().width() / -2, centerPos.y() + boundingRect().height() / -2);
 }

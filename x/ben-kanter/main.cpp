@@ -95,55 +95,75 @@ public:
         
         std::cout << "Key pressed: " << event->key() << std::endl;
 
-        switch (mode)
-        {
-            case NORMAL_MODE:
-                switch(event->key())
-                {
-                    case Qt::Key_N:
-                        mode = NODE_MODE;
-                        break;
-                    case Qt::Key_E:
-                        mode = EDGE_MODE;
-                        break;
-                    case Qt::Key_G:
-                        toggleGrid();
-                        break;
-                }
-                break;
-            case NODE_MODE:
-                switch(event->key())
-                {
-                    case Qt::Key_Escape:
-                        mode = NORMAL_MODE;
-                        break;
-                    default:
-                        bool isACharacter = !event->text().isEmpty();
+        // switch (mode)
+        // {
+        //     case NORMAL_MODE:
+        //         switch(event->key())
+        //         {
+        //             case Qt::Key_N:
+        //                 mode = NODE_MODE;
+        //                 break;
+        //             case Qt::Key_E:
+        //                 mode = EDGE_MODE;
+        //                 break;
+        //             case Qt::Key_G:
+        //                 toggleGrid();
+        //                 break;
+        //         }
+        //         break;
+        //     case NODE_MODE:
+        //         switch(event->key())
+        //         {
+        //             case Qt::Key_Escape:
+        //                 mode = NORMAL_MODE;
+        //                 break;
+        //             default:
+        //                 bool isACharacter = !event->text().isEmpty();
 
-                        if (isACharacter) {
-                            Node* node = nodeAtCurrentLocation();
+        //                 if (isACharacter) {
+        //                     Node* node = nodeAtCurrentLocation();
 
-                            if(node == nullptr) {
-                                node = createNodeAtCursor();
-                            }
+        //                     if(node == nullptr) {
+        //                         node = createNodeAtCursor();
+        //                     }
                             
-                            // if not currently typing in the node, start typing, and pass letter typed
-                            if(!(node->hasFocus())) {
-                                node->setFocus();
-                                node->keyPressEvent(event);
-                            }
-                        }
+        //                     // if not currently typing in the node, start typing, and pass letter typed
+        //                     if(!(node->hasFocus())) {
+        //                         node->setFocus();
+        //                         node->keyPressEvent(event);
+        //                     }
+        //                 }
 
-                }
-                break;
-            case EDGE_MODE:
-                switch(event->key())
-                {
-                    case Qt::Key_Escape:
-                        mode = NORMAL_MODE;
-                        break;
-                }
-                break;
+        //         }
+        //         break;
+        //     case EDGE_MODE:
+        //         switch(event->key())
+        //         {
+        //             case Qt::Key_Escape:
+        //                 mode = NORMAL_MODE;
+        //                 break;
+        //         }
+        //         break;
+        // }
+
+
+        // Adding/editing a node
+        if (event->key() == Qt::Key_N && event->modifiers() == Qt::ControlModifier) {
+            Node* node = nodeAtCurrentLocation();
+
+            if(node == nullptr) {
+                node = createNodeAtCursor();
+                node->setFocus();
+            }
+            else{
+                node->setFocus();
+            }
+        } else if (event->key() == Qt::Key_Delete) {
+            Node* node = nodeAtCurrentLocation();
+            if (node != nullptr) {
+                scene()->removeItem(node);
+                delete node;
+            }
         }
 
         // don't move cursor if we are typing in the node

@@ -13,12 +13,16 @@ class Node : public QGraphicsTextItem
             setFlag(QGraphicsItem::ItemIsMovable);
             setFlag(QGraphicsItem::ItemIsSelectable);
             setTextInteractionFlags(Qt::TextEditorInteraction);
+            centerPos = pos();
+            centerText();
         }
+
+        void centerText();
 
         void keyPressEvent(QKeyEvent* event);
     
     private:
-
+        QPointF centerPos;
 
 };
 
