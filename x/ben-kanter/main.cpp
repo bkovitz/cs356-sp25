@@ -150,18 +150,25 @@ public:
         // Adding/editing a node
         if (event->key() == Qt::Key_N && event->modifiers() == Qt::ControlModifier) {
             Node* node = nodeAtCurrentLocation();
-
+            
             if(node == nullptr) {
                 node = createNodeAtCursor();
-                node->setFocus();
             }
-            else{
-                node->setFocus();
-            }
+            node->setFocus();
+            nodes.append(node);
+            addSnapshot();
+
         } else if (event->key() == Qt::Key_Delete) {
             Node* node = nodeAtCurrentLocation();
             if (node != nullptr) {
                 scene()->removeItem(node);
+                for (int i = 0; i < nodes.size(); i++)
+                {
+                    if(nodes[i] == node){
+                        nodes.removeAt(i);
+                        break;
+                    }
+                }
                 delete node;
             }
         }
@@ -212,6 +219,19 @@ public:
         QList<QGraphicsLineItem*> gridLines;
         bool gridVisible = true;
         QStatusBar* statusBar;
+
+        QList<Node*> nodes;
+        QList<QList<Node>> snapshots;
+
+        void addSnapshot()
+        {
+            QList<Node> newSnapshot;
+            for (auto node : nodes) {
+                Node copyOfNode(node);
+                newSnapshot.append(copyOfNode);
+            }
+            snapshots.append(newSnapshot);
+        }
 
         Node* createNodeAtCursor() {
             int x = cursor->x();
