@@ -12,6 +12,7 @@
 #include <QStatusBar>
 #include <QList>
 #include "Node.h"
+#include "CreatedNode.h"
 
 using namespace std;
 const int gridBlockWidth   = 100;
@@ -19,6 +20,8 @@ const int gridBlockHeight  = 100;
 
 const int sceneWidth = 600;
 const int sceneHeight = 300;
+
+vector<CreatedNode> actionsHistory;
 
 ostream& operator<<(ostream& os, const QPointF& p) {
     return os << "(" << p.x() << ", " << p.y() << ")";
@@ -155,22 +158,25 @@ public:
                 node = createNodeAtCursor();
             }
             node->setFocus();
-            nodes.append(node);
-            addSnapshot();
+            // nodes.append(node);
+            // addSnapshot();
 
         } else if (event->key() == Qt::Key_Delete) {
             Node* node = nodeAtCurrentLocation();
             if (node != nullptr) {
                 scene()->removeItem(node);
-                for (int i = 0; i < nodes.size(); i++)
-                {
-                    if(nodes[i] == node){
-                        nodes.removeAt(i);
-                        break;
-                    }
-                }
+                // for (int i = 0; i < nodes.size(); i++)
+                // {
+                //     if(nodes[i] == node){
+                //         nodes.removeAt(i);
+                //         break;
+                //     }
+                // }
                 delete node;
             }
+        } else if (event->key() == Qt::Key_Z && event->modifiers() == Qt::ControlModifier) {
+            cout << "Trying to undo" << endl;
+            undoLastAction();
         }
 
         // don't move cursor if we are typing in the node
@@ -220,17 +226,26 @@ public:
         bool gridVisible = true;
         QStatusBar* statusBar;
 
-        QList<Node*> nodes;
-        QList<QList<Node>> snapshots;
+        // QList<Node*> nodes;
+        // QList<QList<Node>> snapshots;
 
-        void addSnapshot()
-        {
-            QList<Node> newSnapshot;
-            for (auto node : nodes) {
-                Node copyOfNode(node);
-                newSnapshot.append(copyOfNode);
+        // void addSnapshot()
+        // {
+        //     QList<Node> newSnapshot;
+        //     for (auto node : nodes) {
+        //         Node copyOfNode(node);
+        //         newSnapshot.append(copyOfNode);
+        //     }
+        //     snapshots.append(newSnapshot);
+        // }
+
+        void undoLastAction() {
+            cout << actionsHistory.size() << endl;
+            if (!actionsHistory.empty()) {
+                CreatedNode action = actionsHistory.back();
+                actionsHistory.pop_back();
+                action.undo(scene());
             }
-            snapshots.append(newSnapshot);
         }
 
         Node* createNodeAtCursor() {

@@ -19,6 +19,7 @@ endif()
 add_executable(${PROJECT_NAME}
     main.cpp
     Node.cpp
+    CreatedNode.cpp
 )
 
 # Include directories

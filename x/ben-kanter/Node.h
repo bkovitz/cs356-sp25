@@ -2,6 +2,7 @@
 #define NODE_H
 
 #include <QGraphicsTextItem>
+#include "CreatedNode.h"
 
 class Node : public QGraphicsTextItem
 {
