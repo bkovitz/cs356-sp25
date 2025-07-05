@@ -78,9 +78,10 @@ software design:
 
 The rest of this article describes how the course went: its structure,
 problems that arose, solutions that we found or didn't find, and a final
-assessment. Where appropriate, I'll follow a loose version of Portland Form,
-briefly describing each problem and following it with a paragraph marked
-``Solution:'' to indicate the solution chosen.
+assessment.
+%Where appropriate, I'll follow a loose version of Portland Form,
+%briefly describing each problem and following it with a paragraph marked
+%``Solution:'' to indicate the solution chosen.
 
 \section{The Semester}
 
@@ -112,13 +113,42 @@ opinion (including this very statement). % TODO throw this out?
 % time for retrospection
 \end{comment}
 
-Each class session was a lab---no lectures, except for an introductory lecture
-on the first day and occasional improvised mini-lectures as needed.
+\subsection{Semester overview}
 
-The first 
+The semester plan was as follows. (The complete syllabus is available at
+\cite{kovitz2025cs356syllabus}.)
 
-Last day of class: each student gave a presentation on what they learned
+\begin{itemize}
+\item Each class session was a lab---no lectures, except for an introductory
+lecture on the first day and occasional improvised mini-lectures as needed.
+
+\item Readings were assigned at the end of each class session, and students
+had to give brief presentations on the readings at the start of the next
+session.
+
+\item Students were required to keep notebooks in which they recorded what new
+idea or technique they learned in each class session, and to periodically hand
+these in during the semester.
+
+\item The first few class sessions: design exercises, mostly omitting
+implementation, to teach UML and design as something distinct from code.
+
+\item Most of the semester (about 10~weeks) was spent designing and
+implementing a single piece of software in C++, collaboratively by mob
+programming together in class.
+
+\item Last two weeks: we returned to design exercises without implementation,
+now introducing distributed system design (load balancers, microservices,
+etc.).
+
+% MOVE this to "problems"
+%AI policy: allowed and encouraged. During the first half of the semester, use
+%AI only for documentation look-up and simple code-completion with Copilot.
+%During the second half of the semester, run wild and see how much AI can do.
+
+\item Last day of class: each student gave a presentation on what they learned
 during the semester.
+\end{itemize}
 
 \subsection{Initial design exercise}
 
@@ -159,7 +189,7 @@ text editor.
 % TODO Explain the importance of strong-style pairing for verbalizing and
 % cooperation
 
-\item We set a timer so that every 5 minutes, we rotated roles. Someone from
+\item We set a timer so that every 5~minutes, we rotated roles. Someone from
 the mob becomes the driver, the driver becomes the navigator, and the
 navigator returns to the mob.
 
@@ -173,9 +203,10 @@ We drew the state-transition diagram on the whiteboard, and then the students
 proceeded to do exactly what I think you should not do: they started putting
 together tricky nested loops with tricky conditions inside---essentially
 neglecting the state-transition diagram and trying to get the same result by
-cobbling together familiar programming constructs in the usual ways. We
-quickly evolved a style of mobbing where people other than the navigator and
-driver feel free to call out ideas. But I held silent.
+cobbling together familiar programming constructs in the usual ways.
+%We
+%quickly evolved a style of mobbing where people other than the navigator and
+%driver feel free to call out ideas. But I held silent.
 
 At one point, the navigator suggested ``reversing'' a variable for a sensor's
 input. The driver didn't know how to do that in C++. The navigator said, ``Put
@@ -199,8 +230,8 @@ extremely bug-prone code. Finally, as the navigator, I had the driver make a
 \texttt{case} for the \texttt{switch} statement that fully handled the initial
 state.  The students had ``aha!'' moments and, as they rotated into the
 navigator role one by one, worked out how to systematically cover all of the
-infinite set of possible input sequences. The first time we compiled the code,
-it was correct and passed all tests (which the students were now able to
+infinite set of possible input sequences. On our first attempt to compile the
+code, it was correct and passed all tests (which the students were now able to
 design systematically, too). The students had their first experience with
 \emph{design} distinct from code, and with a systematic mapping of design
 elements to program elements.
@@ -251,6 +282,8 @@ Finding a room
 Problems: Not enough mobbing hours in the semester. A true community of
 practice would meet nearly every day.
 \end{comment}
+
+\subsection{Some problems and solutions}
 
 \section{Assessment}
 
