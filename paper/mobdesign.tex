@@ -4,14 +4,14 @@
 
 \usepackage{verbatim}
 
-%\addbibresource{sample.bib}
+\addbibresource{mobdesign.bib}
 
 \title{Mob Programming in a Software Design Course}
 
 \author{
 Ben Kovitz \\
 Department of Computer Science \\
-California Polytechnic University, Humboldt \\
+California State Polytechnic University, Humboldt \\
 Arcata, CA 95521 \\
 \email{blk14@humboldt.edu}\\
 }
@@ -55,32 +55,81 @@ software design:
   of lectures, homework assignments, and exams often gives students
   experience only with writing small, stand-alone pieces of code that just
   barely work or partly work (enough to get partial credit) and that no one
-  looks at again. Could mob programming on one project, building it for most
-  of one semester by piecemeal growth, give students valuable experience
-  working on each other's code, seeing for themselves how to grow a software
-  design and how to make the codebase habitable for others?
+  looks at ever again. Could mob programming on one project, building it for
+  most of one semester by piecemeal growth, give students valuable experience
+  working on each other's code, seeing for themselves how to grow a 
+  software design that's habitable for others?
 
-  \item Software engineering is a complex and collaborative art,
-  involving constant learning and constant adjustment to unexpected problems
+  \item Software engineering is a complex and collaborative art.
+  Engineers must constantly learn and constantly adjust to unexpected problems
   and to other people on the development team. Much of the skill is difficult
   or impossible to express precisely in verbal representations and procedures,
-  and can be acquired only through practice. This makes it a good fit for the
-  research by anthropologists Jean Lave and Etienne Wenger on learning in
-  ``communities of practice''.\cite{wenger2015introduction}
-  Could mob programming create an artificial community of practice for one
-  semester?
+  and can be acquired only through real practice. This makes it a good fit for
+  the research by anthropologists Jean Lave and Etienne Wenger on learning in
+  ``communities of practice''.\cite{wenger2015introduction} Could mob
+  programming create an artificial community of practice for one semester?
 
   \item Only seven students were enrolled in the class. CS~356 is a
-  junior-level course, and these students are among the first cohorts in the
+  junior-level course, and these students were among the first cohorts in the
   university's recently begun Software Engineering degree program. So,
   this semester provided a good opportunity to experiment with mob
   programming.
 \end{enumerate}
 
 The rest of this article describes how the course went: its structure,
-problems that arose and solutions that we found or didn't find, and a final
-assessment.
+problems that arose, solutions that we found or didn't find, and a final
+assessment. Where appropriate, I'll follow a loose version of Portland Form,
+briefly describing each problem and following it with a paragraph marked
+``Solution:'' to indicate the solution chosen.
 
+\section{The Semester}
+
+\begin{comment}
+Three problems were evident before the semester began.
+
+First, what is software design, anyway? The term is highly ambiguous.
+Different experts hold radically different conceptions, from
+James Reeves' view that ``the source code is the
+design''\cite{reeves1992software} to IEEE~1016--2009, which specifies
+12~``design viewpoints'', each with its own design entities, design
+relationships, and design attributes, to be described in a design language
+such as UML\cite{IEEE1016-2009}. The number of aspects or elements of software
+design is mind-boggling, and each comes with its own opinionated camps and
+controversies: high-level design, low-level design, system design, interface
+design (which can mean user-interface design, interaction design,
+communication protocols, or class method signatures, depending on who's
+talking), database design, architectural design, GoF design patterns, ways of
+organizing source code into subroutines, and more.
+
+The sea of ambiguity and opinion surrounding ``software design''
+
+Solution: I took the union of all theories of design, and announced on
+the first day that the entire field of software design is a matter of
+opinion (including this very statement). % TODO throw this out?
+
+% readings & presentations
+
+% time for retrospection
+\end{comment}
+
+Each class session was a lab---no lectures, except for an introductory lecture
+on the first day and occasional improvised mini-lectures as needed.
+
+The first 
+
+Last day of class: each student gave a presentation on what they learned
+during the semester.
+
+\subsection{Initial design exercise}
+
+The first design exercise was borrowed from a job-interview question,
+involving designing a state-transition diagram for a controller in a common
+home appliance (details omitted so I can reuse it). The students did this in
+about an hour of class time, after which I corrected errors and pointed out
+that they had worked out a mathematically complete description of the software
+without writing a line of code.
+
+Then we moved on to implementing the finite state machine in C++.
 
 
 \begin{comment}
@@ -89,6 +138,8 @@ Semester overview (put this in a small table).
 Link to the complete syllabus.
 
 ``Software design'' is a highly ambiguous term. 
+
+``common knowledge''
 
 In an ordinary class, I would have demo'ed how to implement the finite state
 machine, projecting my computer's screen to the whole class. Instead, we did
@@ -106,9 +157,35 @@ No textbooks.
 
 Hard to teach, easy to teach.
 
+Danger: what if a prima donna shows up?
+
+Finding a room
+
 Problems: Not enough mobbing hours in the semester. A true community of
 practice would meet nearly every day.
 \end{comment}
+
+\section{Assessment}
+
+\section{Acknowledgements}
+
+Much gratitude to the many people who helped make the course a success:
+Shahzad Aslam-Mir for wide-ranging advice on everything from projects to C++
+libraries, which silently
+averted disasters and made things run smoothly;
+Rebecca Wirfs-Brock for inviting me to look into mob programming and guidance
+finding the right balance between giving too much and too little direction
+to the students;
+Woody Zuill for generously making time to answer my many basic questions
+about mobbing;
+Austin Chadwick and Chris Lucian for generously making time to answer yet more
+questions about mobbing and letting me mob remotely at Hunter Industries;
+Dave Bender for the initial design exercise;
+Russell Bjork for his UML materials;
+Sherrene Bogle for creating the original CS~356 course, making this experiment
+possible;
+and most of all to the students, who dove boldly, cooperatively, and
+creatively into a wildly experimental course.
 
 \section{Body of the Manuscript}
 The text may be organized into sections and subsections. Please use
