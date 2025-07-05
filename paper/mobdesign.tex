@@ -120,7 +120,7 @@ The first
 Last day of class: each student gave a presentation on what they learned
 during the semester.
 
-\subsection{Initial design exercise; first mobbing}
+\subsection{Initial design exercise}
 
 The first design exercise was borrowed from a job-interview question,
 involving designing a state-transition diagram for a controller in a common
@@ -139,10 +139,10 @@ mob programming, which proved much more educational. We set up our mob
 \item One person, called the ``driver'', sits at the keyboard of the computer
 hooked up to a projector.
 
-\item One person, called the ``navigator'', tells` the driver what to do next.
+\item One person, called the ``navigator'', tells the driver what to do next.
 
 \item Everyone else (``the mob'') watches, checks the code for errors, sees
-what ideas come to mid, and does anything else they think might be helpful,
+what ideas come to mind, and does anything else they think might be helpful,
 such as adding to-do items to the whiteboard or searching the Internet for
 documentation.
 
@@ -156,7 +156,10 @@ implement. That may take the form of ``Now write a test for the null case''
 or, if necessary, specific keystrokes to help the driver operate an unfamiliar
 text editor.
 
-\item We set a timer so that every 7 minutes, we rotated roles. Someone from
+% TODO Explain the importance of strong-style pairing for verbalizing and
+% cooperation
+
+\item We set a timer so that every 5 minutes, we rotated roles. Someone from
 the mob becomes the driver, the driver becomes the navigator, and the
 navigator returns to the mob.
 
@@ -166,11 +169,54 @@ eighth (last) in the rotation so that every student would have a chance to
 navigate before I spoke up.
 \end{itemize}
 
-A small problem emerged: the tables in the lab room were perpendicular to the
-projection screen, so it was awkward to look at the screen and awkward to
-switch roles for the next rotation. We eventually found a room where the seats
-faced the projection screen and a new driver could take over in a few seconds.
-Mobbing can be done around a laptop, but these conveniences help.
+We drew the state-transition diagram on the whiteboard, and then the students
+proceeded to do exactly what I think you should not do: they started putting
+together tricky nested loops with tricky conditions inside---essentially
+neglecting the state-transition diagram and trying to get the same result by
+cobbling together familiar programming constructs in the usual ways. We
+quickly evolved a style of mobbing where people other than the navigator and
+driver feel free to call out ideas. But I held silent.
+
+At one point, the navigator suggested ``reversing'' a variable for a sensor's
+input. The driver didn't know how to do that in C++. The navigator said, ``Put
+an exclamation point'' (the Boolean negation operator in C++). The driver was
+surprised by how easy that was, got a brief explanation, and then went on to
+the next thing. This interaction only took a few seconds, but it tells a lot
+about how the mobbing worked throughout the semester. Students came to the
+class with widely varying prior experience. Some might be lost in a lecture
+that assumes knowledge they don't have and get further behind as the semester
+continues. Mob programming effortlessly paused to fill in just the bit of
+knowledge that a student needed, right when he or she needed it.
+
+%While the course was intended to teach
+%``software design'', a rather high-level concept, it also taught a great many
+%small details
+
+Eventually the students hit on the idea of a variable for the state of the
+state machine. From the mob, I suggested a \texttt{switch} statement,
+but they still had no systematic approach and were writing
+extremely bug-prone code. Finally, as the navigator, I had the driver make a
+\texttt{case} for the \texttt{switch} statement that fully handled the initial
+state.  The students had ``aha!'' moments and, as they rotated into the
+navigator role one by one, worked out how to systematically cover all of the
+infinite set of possible input sequences. The first time we compiled the code,
+it was correct and passed all tests (which the students were now able to
+design systematically, too). The students had their first experience with
+\emph{design} distinct from code, and with a systematic mapping of design
+elements to program elements.
+
+Some students found the initial mob programming stressful. They'd written
+almost all of their previous code solo. Now they had to write code in front of
+a whole class---while thinking it up, unsure of their approach, gaps in their
+knowledge and skills on display. ``Am I doing it right?'' some asked me after
+class, unsure, since I gave them no rubric for ``correct'' mob programming.
+
+A small problem with the physical environment became apparent: the tables in
+the lab room were perpendicular to the projection screen, so it was awkward to
+look at the screen and awkward to switch roles for the next rotation. We
+eventually found a room where the seats faced the projection screen and a new
+driver could take over in a few seconds.  Mobbing can be done hovering around
+a laptop, but these conveniences help.
 
 
 \begin{comment}
