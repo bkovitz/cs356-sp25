@@ -5,6 +5,8 @@ BIB=bibtex8
 
 all: mobdesign.pdf
 
+mobdesign.pdf: mobdesign.tex mobdesign.bib
+
 %.pdf: %.tex 
 	$(TEX) $<
 

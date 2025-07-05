@@ -120,7 +120,7 @@ The first
 Last day of class: each student gave a presentation on what they learned
 during the semester.
 
-\subsection{Initial design exercise}
+\subsection{Initial design exercise; first mobbing}
 
 The first design exercise was borrowed from a job-interview question,
 involving designing a state-transition diagram for a controller in a common
@@ -129,7 +129,48 @@ about an hour of class time, after which I corrected errors and pointed out
 that they had worked out a mathematically complete description of the software
 without writing a line of code.
 
-Then we moved on to implementing the finite state machine in C++.
+Then we moved on to implementing the finite state machine in C++. Had this
+been an ordinary class, I would have written the code at a projector,
+explaining my thoughts as I went. Instead, we had our first experience with
+mob programming, which proved much more educational. We set up our mob
+``rotation'' as follows:
+
+\begin{itemize}
+\item One person, called the ``driver'', sits at the keyboard of the computer
+hooked up to a projector.
+
+\item One person, called the ``navigator'', tells` the driver what to do next.
+
+\item Everyone else (``the mob'') watches, checks the code for errors, sees
+what ideas come to mid, and does anything else they think might be helpful,
+such as adding to-do items to the whiteboard or searching the Internet for
+documentation.
+
+\item We followed Llewelyn Falco's ``strong-style
+pairing''\cite{falco2014strong}, which has this rule: ``For an idea to go from
+your head into the computer, it must go through someone else's hands.'' The
+driver's job is not to enter his or her own ideas into the code. The driver's
+job is to follow the navigator's instructions. The navigator tries to state
+each instruction at the highest level of abstraction that the driver can
+implement. That may take the form of ``Now write a test for the null case''
+or, if necessary, specific keystrokes to help the driver operate an unfamiliar
+text editor.
+
+\item We set a timer so that every 7 minutes, we rotated roles. Someone from
+the mob becomes the driver, the driver becomes the navigator, and the
+navigator returns to the mob.
+
+\item All the students' names were written in sequence (``the rotation'')
+on the whiteboard, so we always knew who was to drive next. I placed myself
+eighth (last) in the rotation so that every student would have a chance to
+navigate before I spoke up.
+\end{itemize}
+
+A small problem emerged: the tables in the lab room were perpendicular to the
+projection screen, so it was awkward to look at the screen and awkward to
+switch roles for the next rotation. We eventually found a room where the seats
+faced the projection screen and a new driver could take over in a few seconds.
+Mobbing can be done around a laptop, but these conveniences help.
 
 
 \begin{comment}
