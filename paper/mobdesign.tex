@@ -1,0 +1,307 @@
+\documentclass{article}
+
+\input{preamble}
+
+\usepackage{verbatim}
+
+%\addbibresource{sample.bib}
+
+\title{Mob Programming in a Software Design Course}
+
+\author{
+Ben Kovitz \\
+Department of Computer Science \\
+California Polytechnic University, Humboldt \\
+Arcata, CA 95521 \\
+\email{blk14@humboldt.edu}\\
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Case study of a Software Design course taught using mob programming. Mob
+programming (also ``team programming'', ``ensemble programming'') is
+collaborative programming in which the whole team---in this case, the
+whole class---writes code together at the same time, like pair programming
+but including everyone.
+\end{abstract}
+
+\section{Introduction}
+I taught a course on software design in the Spring~2025 semester at
+California State Polytechnic University, Humboldt (course number CS~356),
+predominantly by a new pedagogy: mob programming. Mob programming,
+also called team programming or ensemble programming, is ``a software
+development approach where the whole team works together on the same thing,
+in the same space, and at the same computer.''\cite{zuill2022software}
+Mob programming is like pair programming, but not limited to two programmers
+at one computer.
+
+Several reasons suggested mob programming as an effective way to teach
+software design:
+
+\begin{enumerate}
+  \item Experience from industry suggests that pair programming and mob
+  programming result in knowledge spreading rapidly throughout the team.
+  %@@CITE
+  So, why not exploit this happy property of mob programming as a class's
+  principal method of learning?
+
+  \item Many industry complaints about skills lacking in recent college
+  graduates revolve around ``habitability''---the aspects of design that
+  go beyond correctness and relate to programmers' ability to work with
+  code over many years, such as readability, maintainability, testability,
+  and debuggability.\cite{Gabriel1996}. The usual college-course format
+  of lectures, homework assignments, and exams often gives students
+  experience only with writing small, stand-alone pieces of code that just
+  barely work or partly work (enough to get partial credit) and that no one
+  looks at again. Could mob programming on one project, building it for most
+  of one semester by piecemeal growth, give students valuable experience
+  working on each other's code, seeing for themselves how to grow a software
+  design and how to make the codebase habitable for others?
+
+  \item Software engineering is a complex and collaborative art,
+  involving constant learning and constant adjustment to unexpected problems
+  and to other people on the development team. Much of the skill is difficult
+  or impossible to express precisely in verbal representations and procedures,
+  and can be acquired only through practice. This makes it a good fit for the
+  research by anthropologists Jean Lave and Etienne Wenger on learning in
+  ``communities of practice''.\cite{wenger2015introduction}
+  Could mob programming create an artificial community of practice for one
+  semester?
+
+  \item Only seven students were enrolled in the class. CS~356 is a
+  junior-level course, and these students are among the first cohorts in the
+  university's recently begun Software Engineering degree program. So,
+  this semester provided a good opportunity to experiment with mob
+  programming.
+\end{enumerate}
+
+The rest of this article describes how the course went: its structure,
+problems that arose and solutions that we found or didn't find, and a final
+assessment.
+
+
+
+\begin{comment}
+Semester overview (put this in a small table).
+
+Link to the complete syllabus.
+
+``Software design'' is a highly ambiguous term. 
+
+In an ordinary class, I would have demo'ed how to implement the finite state
+machine, projecting my computer's screen to the whole class. Instead, we did
+our first mob programming.
+
+The day I improvised a lecture on agile vs. waterfall. Previous exposure had
+given some students the impression that agile is hopelessly high-risk
+because it has no discipline and other
+students the impression that waterfall is hopelessly high-risk because it's
+inflexible and assumes perfect forethought.
+
+Some students had previous experience with Git and some did not.
+
+No textbooks.
+
+Hard to teach, easy to teach.
+
+Problems: Not enough mobbing hours in the semester. A true community of
+practice would meet nearly every day.
+\end{comment}
+
+\section{Body of the Manuscript}
+The text may be organized into sections and subsections. Please use
+\verb+\section+ and  \verb+\subsection+ commands to define them as shown in the
+Latex source file of this document. Latex will apply section formatting rules.
+
+\subsection{Abstract}
+Provide a one-paragraph brief overview of the paper in both the manuscript for
+review and in the final manuscript for publication.
+
+%\subsection{Citation}
+%Appropriately cite all references to other published works included in the paper.
+%\texttt{biblatex} is used to create a list of references or bibliography as the
+%last section in the paper. Here are citation examples for a
+%book\cite{latexcompanion}, a journal paper\cite{einstein}, a
+%website\cite{knuthwebsite}, and a conference proceeding paper\cite{maurer}.
+%Please check out the source code of this document for details.
+
+\subsection{Double Quote}
+The proper way to typeset double quote is to use two backticks or grave accents
+(\`{}) on the left and two single quotes (\'{}) on the right, e.g.
+\`{}\`{}Hello!\'{}\'{} for ``Hello!''.
+
+\subsection{Lists}
+Lists are easy to create in  \LaTeX\ whether they are ordered, unordered, or
+nested as shown in the following example.
+
+\begin{itemize}[noitemsep]
+  \item The individual entries are indicated with a black dot, a so-called bullet.
+  \item The text in the entries may be of any length.
+\end{itemize}
+
+\begin{enumerate}[noitemsep]
+  \item The labels consist of sequential numbers.
+  \item The numbers start at 1 with every call to the enumerate environment.
+\end{enumerate}
+
+\begin{enumerate}[noitemsep]
+   \item The labels consists of sequential numbers.
+   \begin{itemize}[noitemsep]
+     \item The individual entries are indicated with a black dot, a so-called bullet.
+     \item The text in the entries may be of any length.
+   \end{itemize}
+   \item The numbers start at 1 with every call to the enumerate environment.
+\end{enumerate}
+
+\subsection{Math Expressions}
+The mass-energy equivalence is described by the famous equation
+
+$$E=mc^2$$
+
+discovered in 1905 by Albert Einstein.
+In natural units ($c$ = 1), the formula expresses the identity
+
+\begin{equation}
+E=m
+\end{equation}
+
+\subsection{Tables and Figures}
+Include all tables and figures within the body of the text. (Provide as separate
+files in the original format any figures so that if there are problems with the
+figures coming into the final manuscript there are alternatives available to the editors.)
+
+Here is an example Table \ref{table:nonlin}. Note that each table or figure \textbf{must} have
+a title as our style requirement.
+
+\begin{table}[ht]
+\caption{Nonlinear Model Results} % title of Table
+\label{table:nonlin} % is used to refer this table in the text
+\centering % used for centering table
+\begin{tabular}{c c c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Case & Method\#1 & Method\#2 & Method\#3 \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+1 & 50 & 837 & 970 \\ % inserting body of the table
+2 & 47 & 877 & 230 \\
+3 & 31 & 25 & 415 \\
+4 & 35 & 144 & 2356 \\
+5 & 45 & 300 & 556 \\ [1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\end{table}
+
+The trim size of the journal is half-letter size, so please be aware that your
+tables or figures may be hard to read if the fonts are too small as shown in
+this Figure \ref{figure:big_table}.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{big_table.png}
+\caption{Fonts are too small.}
+\label{figure:big_table}
+\end{figure}
+
+In this case, you can either divide the table into multiple parts, or put the
+table/figure sideways on its own page as shown in Figure \ref{figure:big_table1}.
+\begin{sidewaysfigure}[htbp]
+  \includegraphics[width=\textwidth]{big_table.png}
+  \caption{A big table turned sideways on its own page.}
+  \label{figure:big_table1}
+\end{sidewaysfigure}
+
+The code for inserting figures sideways is as follows:
+
+\vbox{
+\begin{lstlisting}[language=TeX, basicstyle=\footnotesize,
+caption=Code to Insert Figures Sideways]
+\begin{sidewaysfigure}[htbp]
+  \includegraphics[width=\textwidth]{big_table.png}
+  \caption{A big table turned sideways on its own page.}
+  \label{figure:big_table1}
+\end{sidewaysfigure}
+\end{lstlisting}
+}
+Here is a live example: \url{https://www.overleaf.com/read/fzcmnctdppgz}
+
+\subsection{Use of Color}
+Even though our digital journal is in color, our print journal is in black and white.
+You may choose to use other colors in your paper, but please be aware that the colors
+you choose may not be distinguishable after they are turned into gray-scale.
+
+\subsection{Reference List}
+The \verb+\printbibliography+ command prints a list of references for you.
+Please use \texttt{sample.bib} as an example to create your bibliography entries.
+
+If you can find a reference on \url{https://scholar.google.com/} you can get a
+``BibTex'' export by clicking on the quotation mark symbol, which is a lot easier
+than entering the information manually.
+
+\subsection{Code Listings}
+Commands from \texttt{listings} package allow you to display code easily with
+customizable coloring and styling rules. Here is an example.
+Please check out the source code of this document for details.
+
+\begin{lstlisting}[language=Python,  caption=Python example]
+x = 42
+epsilon = 0.01
+step = epsilon**2
+num_guesses = 0
+ans = 0.0
+while abs(ans**2-x) > epsilon and ans < x:
+    ans = ans + step
+    num_guesses += 1
+if abs(ans**2-x) <= epsilon:
+    print(str(ans) +
+    ' is close to the square root of ' +
+    str(x))
+else:
+    print('Failed to find square root of ' + str(x))
+print("The number of guesses is " + str(num_guesses))
+\end{lstlisting}
+
+\section{Manuscript Submission}
+The following materials will need to be submitted:
+\begin{enumerate}[noitemsep]
+  \item The final manuscript in Latex.
+  \item Copyright release. It is essential that we receive the copyright
+  release form. By signing this form you are acknowledging that the manuscript
+  has not been printed in another venue, plus you are retaining your rights for
+  use of the manuscript. Read the copyright release. The Consortium will not
+  prohibit you from using the manuscript, but will ask that you credit any reuse
+  to the Consortium as the original source of publication. If you misplace the
+  copyright form, a generic copyright form can be found through the Copyright
+  Release Form\cite{copyright}.\\
+  The Consortium encourages multiple presentations of tutorials and workshops.
+  If you are presenting a tutorial or workshop you may retain the copyright,
+  but we must have that documented. Keep in mind that your manuscript is limited
+  to two pages total. However, you must still submit a copyright form.\\
+  Please note that it is critical that you obtain permission to use third party
+  material. If you use diagrams and such that are attributable to a third party
+  you must obtain formal permission to reprint such items, and must so indicate
+  in the copyright release as well as submit such permission.
+  \item Registration for the conference, along with the appropriate registration
+  fee. We have found that there are some folks in need of publication for
+  promotion and tenure purposes, and then don’t want to present the paper.
+  A major plus of the Consortium conferences is the presentation of the papers,
+  and you must plan on attending. If you do not present the paper at the
+  conference the paper will be removed from the ACM Digital Library.
+  \item A pdf version of your manuscript is most helpful. If there are problems
+  with special characters or special formatting this provides the editors with
+  what you expected your final manuscript to look like. Providing a pdf version
+  or a hard copy helps significantly in envisioning what the author expected
+  the final product to look like.
+  \item Electronic copies of any graphics in a standard format (bitmap, jpeg, tiff).
+\end{enumerate}
+
+\section{Additional Information}
+Please feel free to email \verb+ccsc-editors@googlegroups.com+ for questions.
+This document is modified from the CCSC manuscript formatting
+document\cite{meinke} created by John Meinke.
+
+\medskip
+
+\printbibliography
+
+\end{document}
