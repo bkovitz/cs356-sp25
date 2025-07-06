@@ -24,7 +24,9 @@ Case study of a Software Design course taught using mob programming. Mob
 programming (also ``team programming'', ``ensemble programming'') is
 collaborative programming in which the whole team---in this case, the
 whole class---writes code together at the same time, like pair programming
-but including everyone.
+but including everyone. The course combined daily collaborative design and
+coding with intensive daily readings and oral presentations. %TODO summarize
+%results
 \end{abstract}
 
 \section{Introduction}
@@ -113,7 +115,7 @@ opinion (including this very statement). % TODO throw this out?
 % time for retrospection
 \end{comment}
 
-\subsection{Semester overview}
+\subsection{Semester Overview}
 
 The semester plan was as follows. (The complete syllabus is available at
 \cite{kovitz2025cs356syllabus}.)
@@ -121,10 +123,14 @@ The semester plan was as follows. (The complete syllabus is available at
 \begin{itemize}
 \item Each class session was a lab---no lectures, except for an introductory
 lecture on the first day and occasional improvised mini-lectures as needed.
+Sessions were one hour and 50~minutes long, twice a week.
 
 \item Readings were assigned at the end of each class session, and students
 had to give brief presentations on the readings at the start of the next
-session.
+session. These presentations usually took up the first 20 to 30 minutes of
+class time. The readings came only from sources influential among
+professionals, such as books by Martin Fowler and Scott Meyers, as well as
+famous blog posts and journal articles, not from textbooks.
 
 \item Students were required to keep notebooks in which they recorded what new
 idea or technique they learned in each class session, and to periodically hand
@@ -150,7 +156,7 @@ etc.).
 during the semester.
 \end{itemize}
 
-\subsection{Initial design exercise}
+\subsection{Initial Design Exercises}
 
 The first design exercise was borrowed from a job-interview question,
 involving designing a state-transition diagram for a controller in a common
@@ -179,7 +185,7 @@ documentation.
 \item We followed Llewelyn Falco's ``strong-style
 pairing''\cite{falco2014strong}, which has this rule: ``For an idea to go from
 your head into the computer, it must go through someone else's hands.'' The
-driver's job is not to enter his or her own ideas into the code. The driver's
+driver does not enter his or her own ideas into the code. The driver's
 job is to follow the navigator's instructions. The navigator tries to state
 each instruction at the highest level of abstraction that the driver can
 implement. That may take the form of ``Now write a test for the null case''
@@ -202,22 +208,22 @@ navigate before I spoke up.
 We drew the state-transition diagram on the whiteboard, and then the students
 proceeded to do exactly what I think you should not do: they started putting
 together tricky nested loops with tricky conditions inside---essentially
-neglecting the state-transition diagram and trying to get the same result by
-cobbling together familiar programming constructs in the usual ways.
+neglecting the state-transition diagram and trying to reproduce the desired
+output cobbling together familiar programming constructs in the usual ways.
 %We
 %quickly evolved a style of mobbing where people other than the navigator and
 %driver feel free to call out ideas. But I held silent.
 
 At one point, the navigator suggested ``reversing'' a variable for a sensor's
 input. The driver didn't know how to do that in C++. The navigator said, ``Put
-an exclamation point'' (the Boolean negation operator in C++). The driver was
+an exclamation point'' (the Boolean negation operator). The driver was
 surprised by how easy that was, got a brief explanation, and then went on to
-the next thing. This interaction only took a few seconds, but it tells a lot
-about how the mobbing worked throughout the semester. Students came to the
-class with widely varying prior experience. Some might be lost in a lecture
-that assumes knowledge they don't have and get further behind as the semester
-continues. Mob programming effortlessly paused to fill in just the bit of
-knowledge that a student needed, right when he or she needed it.
+the next thing. Similar small points came up during mobbing nearly every day.
+Students came to the class with widely varying prior experience. Some might be
+lost in a lecture that assumes knowledge they don't have and get further
+behind as the semester continues.  Mob programming effortlessly paused to fill
+in just the bit of knowledge that a student needed, right when he or she
+needed it.
 
 %While the course was intended to teach
 %``software design'', a rather high-level concept, it also taught a great many
@@ -243,25 +249,78 @@ knowledge and skills on display. ``Am I doing it right?'' some asked me after
 class, unsure, since I gave them no rubric for ``correct'' mob programming.
 
 A small problem with the physical environment became apparent: the tables in
-the lab room were perpendicular to the projection screen, so it was awkward to
-look at the screen and awkward to switch roles for the next rotation. We
-eventually found a room where the seats faced the projection screen and a new
-driver could take over in a few seconds.  Mobbing can be done hovering around
-a laptop, but these conveniences help.
+the lab room were far apart and perpendicular to the projection screen, so it
+was awkward to look at the screen, and background noise made it hard to be
+heard across the room. We eventually found a quiet room where the seats faced
+the projection screen and a new driver could swap into place in a few seconds.
+Mobbing can be done hovering around a laptop, but these conveniences help.
 
+After that, we moved on to designing an ATM machine, using Russell Bjork's
+ATM Simulation site \cite{bjork_atm_simulation} and following the method of
+making classes from nouns in the requirements and assigning responsibilities
+based on relationships, as explained in \cite{wirfs1990designing}. We liked
+the mob-rotation format so much, we used it for this UML-only, whiteboard-only
+design process. There was no navigator role, only a driver role that rotated
+every 10~minutes. The driver wrote on the whiteboard while everyone else
+suggested items to add or change. Since I was the only one who knew the
+process, I facilitated.
+
+\subsection{The Project}
+
+Before the semester, I had asked around campus for software that people needed
+written and even received some suggestions on LinkedIn. In class, we rated all
+the options at the whiteboard for feasibility, opportunity to learn design
+patterns, and suitability for C++, and chose to make a diagram editor. In this
+as in all our group decision-making, we followed a method similar to ``dot
+voting'' as used at Norman Nielsen Group \cite{budiu2024dotvoting} and
+commonly done in mob-programming circles. We kept a clear boundary between
+exploration (``divergent thinking'') and evaluation or filtering of ideas
+(``convergent thinking''), doing first one and then the other.
+
+We spent one class session brainstorming for features. This gave the
+students experience in collaborative software design at the level of
+requirements or problem definition. The first idea was ``little boxes in a
+canvas''. Exploration continued through ``TiKZ editor'' and, most ambitiously,
+``the VSCode of diagram editors, allowing plug-ins for electrical simulation
+of schematic diagrams or anything else''. We pared that down to ``enough for
+Ben to draw graphs for homework problems in graph theory, with a
+\emph{vim}-like user interface.''
+
+Next we had to make a crucial design decision: which GUI library to use?
+I assigned readings on two popular and relatively simple libraries, FLTK and
+SDL, intending that the students would choose one of those. One student
+independently researched Qt, a much more complex library---which I had
+intended to avoid. After presentations on all of them and another group
+discussion, we chose Qt, attracted by its ability to make a sophisticated
+GUI in C++ very quickly and run it on both desktop and mobile platforms,
+deeming this to outweigh the risks of greater complexity and time to learn.
+
+I assigned readings in the Qt documentation and we got back to mob
+programming. We used Claude.ai to whip up a simple demo app in Qt and we were
+convinced we had a winner. But Qt did turn out to be problematic. We spent a
+lot of time in and out of class getting the Qt libraries to install
+and work with VSCode on the students' various computers and operating systems.
+This was chaotic and frustrating---but so is real-life software development,
+often for reasons just like this. Qt did enable us to quickly and easily try
+out out radical new user-interface ideas, something we likely could not have
+done with the other libraries.
+
+The navigator role turned out to induce the most stress. As driver,
+you're sitting at the keyboard typing code in front of everyone, but as
+navigator, you're standing in front of the everyone and you bear the
+responsibility of directing the work. Sometimes a student didn't have ideas
+when switching from driver to navigator, or his or her ideas weren't yet clear
+enough to tell someone else how to implement them. 
+
+We found that mob programming can work at amazing speed---even as it feels
+like you're working slowly, doing just a tiny bit before passing the baton to
+the next person.  One day, for example, after we implemented snap-to-grid as
+the user moved an object, we had five minutes left, and our next item was to
+make the grid visible. One student dove in as navigator and we had Qt
+displaying a visible grid just right before class was done.
 
 \begin{comment}
-Semester overview (put this in a small table).
-
-Link to the complete syllabus.
-
-``Software design'' is a highly ambiguous term. 
-
 ``common knowledge''
-
-In an ordinary class, I would have demo'ed how to implement the finite state
-machine, projecting my computer's screen to the whole class. Instead, we did
-our first mob programming.
 
 The day I improvised a lecture on agile vs. waterfall. Previous exposure had
 given some students the impression that agile is hopelessly high-risk
@@ -277,35 +336,91 @@ Hard to teach, easy to teach.
 
 Danger: what if a prima donna shows up?
 
-Finding a room
-
-Problems: Not enough mobbing hours in the semester. A true community of
-practice would meet nearly every day.
+quiet students not asking questions, not having their problems addressed---not
+a problem now
 \end{comment}
 
-\subsection{Some problems and solutions}
+\subsection{Other Problems and Solutions}
 
 \section{Assessment}
+
+The students reported two main things that they learned from the class:
+
+\begin{enumerate}
+\item How to collaborate. The students had all done some pair programming in
+earlier classes, but they had never seen collaboration at this intensity. I
+had meant for mob programming to give the students broad practical experience
+with software design, and it did, but collaboration itself occupied the
+starring role.
+
+\item The parts of software development that are too hard to put into words.
+For example, how much forethought should you put into code before writing
+it? How quickly does refactoring lead a good design to emerge
+``spontaneously'' and under what circumstances does this happen or fail to
+happen? How much design is overdesign?
+\end{enumerate}
+
+The students reported that they got extraordinary practice in oral
+communication, partly from the daily oral presentations and partly from the
+discipline of verbalizing every design decision that mob programming imposes.
+
+The biggest disappointment of the course was that 10~weeks was not enough to
+implement a satisfactory ``graph editor for homework assignments''. Ten weeks
+sounds like a long time, but meeting twice a week, it amounts to only
+about 30~hours of mob programming.  That's less than a week of work at a
+regular job, and it included teaching students many new and unfamiliar design
+concepts.
+
+Another disappointment was that the students got only a little exposure to
+unit tests and test-driven design. The students all made a test or two in
+GoogleTest, but we never used it in the diagram editor, because unit-testing
+a GUI is hard. I would recommend in future mob-programming courses to
+implement a nontrivial back-end for a web site with a simple interface, or
+simply a program that has only a textual user interface.
+
+The course was in some ways easy to teach and in other ways hard to teach.
+The students did the lecturing, not me. Most days, I showed up and mobbed more
+as a colleague than as a teacher, contributing the same way that I would in
+industry. However, the course also required me to pay close attention and
+adjust continuously throughout the semester, more than in other classes. While
+I had selected a set of readings before the semester, I had to choose and
+search for readings before each class to suit whatever the programming was
+leadings us to next.
+
+The syllabus listed 78~topics of which I hoped to cover ``some large subset''.
+I count about 55 of them touched on or explored to varying degrees:
+the DRY principle, \emph{git} and version control, refactoring, code smells, 
+the rule of 3 (or 5), smart pointers, Model--View--Controller, adding a level
+of indirection, writing the calling code first, YAGNI, the Command pattern, the
+Memento pattern, coupling and cohesion, and many more. Most of these topics
+came up both the readings and naturally, as they arose in the course of
+writing code and talking about it.
+
+% Final exam demonstrated weakness
+
+I am most pleased that the students \emph{know} what the course taught---they
+know first-hand, not simply ``because I was told that in college''.
+% imperfect knowledge
+
+% course eval numbers
 
 \section{Acknowledgements}
 
 Much gratitude to the many people who helped make the course a success:
-Shahzad Aslam-Mir for wide-ranging advice on everything from projects to C++
-libraries, which silently
-averted disasters and made things run smoothly;
-Rebecca Wirfs-Brock for inviting me to look into mob programming and guidance
-finding the right balance between giving too much and too little direction
-to the students;
-Woody Zuill for generously making time to answer my many basic questions
-about mobbing;
-Austin Chadwick and Chris Lucian for generously making time to answer yet more
-questions about mobbing and letting me mob remotely at Hunter Industries;
-Dave Bender for the initial design exercise;
-Russell Bjork for his UML materials;
-Sherrene Bogle for creating the original CS~356 course, making this experiment
-possible;
-and most of all to the students, who dove boldly, cooperatively, and
-creatively into a wildly experimental course.
+Shahzad Aslam-Mir for wide-ranging advice on everything from projects to tools
+to C++ libraries, which silently averted disasters and made things run
+smoothly; Rebecca Wirfs-Brock for inviting me to look into mob programming and
+guidance finding the right balance between giving too much and too little
+direction to the students; Woody Zuill for generously making time to answer my
+many basic questions about mobbing; Austin Chadwick and Chris Lucian for
+generously making time to answer yet more questions about mobbing and letting
+me mob remotely at Hunter Industries; Dave Bender for the initial design
+exercise;
+%Russell Bjork for his ATM simulation;
+Sherrene Bogle for creating the
+original CS~356 course, making this experiment possible; and most of all to
+the students, who dove boldly, cooperatively, and creatively into a wildly
+experimental course.
 
 \section{Body of the Manuscript}
 The text may be organized into sections and subsections. Please use
