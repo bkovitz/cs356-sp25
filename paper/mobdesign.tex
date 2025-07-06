@@ -35,7 +35,7 @@ California State Polytechnic University, Humboldt (course number CS~356),
 predominantly by a new pedagogy: mob programming. Mob programming,
 also called team programming or ensemble programming, is ``a software
 development approach where the whole team works together on the same thing,
-in the same space, and at the same computer.''\cite{zuill2022software}
+in the same space, and at the same computer.'' \cite{zuill2022software}
 Mob programming is like pair programming, but not limited to two programmers
 at one computer.
 
@@ -53,7 +53,7 @@ software design:
   graduates revolve around ``habitability''---the aspects of design that
   go beyond correctness and relate to programmers' ability to work with
   code over many years, such as readability, maintainability, testability,
-  and debuggability.\cite{Gabriel1996}. The usual college-course format
+  and debuggability. \cite{Gabriel1996}. The usual college-course format
   of lectures, homework assignments, and exams often gives students
   experience only with writing small, stand-alone pieces of code that just
   barely work or partly work (enough to get partial credit) and that no one
@@ -68,7 +68,7 @@ software design:
   or impossible to express precisely in verbal representations and procedures,
   and can be acquired only through real practice. This makes it a good fit for
   the research by anthropologists Jean Lave and Etienne Wenger on learning in
-  ``communities of practice''.\cite{wenger2015introduction} Could mob
+  ``communities of practice''. \cite{wenger2015introduction} Could mob
   programming create an artificial community of practice for one semester?
 
   \item Only seven students were enrolled in the class. CS~356 is a
@@ -88,24 +88,6 @@ assessment.
 \section{The Semester}
 
 \begin{comment}
-Three problems were evident before the semester began.
-
-First, what is software design, anyway? The term is highly ambiguous.
-Different experts hold radically different conceptions, from
-James Reeves' view that ``the source code is the
-design''\cite{reeves1992software} to IEEE~1016--2009, which specifies
-12~``design viewpoints'', each with its own design entities, design
-relationships, and design attributes, to be described in a design language
-such as UML\cite{IEEE1016-2009}. The number of aspects or elements of software
-design is mind-boggling, and each comes with its own opinionated camps and
-controversies: high-level design, low-level design, system design, interface
-design (which can mean user-interface design, interaction design,
-communication protocols, or class method signatures, depending on who's
-talking), database design, architectural design, GoF design patterns, ways of
-organizing source code into subroutines, and more.
-
-The sea of ambiguity and opinion surrounding ``software design''
-
 Solution: I took the union of all theories of design, and announced on
 the first day that the entire field of software design is a matter of
 opinion (including this very statement). % TODO throw this out?
@@ -183,7 +165,7 @@ such as adding to-do items to the whiteboard or searching the Internet for
 documentation.
 
 \item We followed Llewelyn Falco's ``strong-style
-pairing''\cite{falco2014strong}, which has this rule: ``For an idea to go from
+pairing'' \cite{falco2014strong}, which has this rule: ``For an idea to go from
 your head into the computer, it must go through someone else's hands.'' The
 driver does not enter his or her own ideas into the code. The driver's
 job is to follow the navigator's instructions. The navigator tries to state
@@ -305,19 +287,47 @@ often for reasons just like this. Qt did enable us to quickly and easily try
 out out radical new user-interface ideas, something we likely could not have
 done with the other libraries.
 
-The navigator role turned out to induce the most stress. As driver,
-you're sitting at the keyboard typing code in front of everyone, but as
-navigator, you're standing in front of the everyone and you bear the
-responsibility of directing the work. Sometimes a student didn't have ideas
-when switching from driver to navigator, or his or her ideas weren't yet clear
-enough to tell someone else how to implement them. 
-
 We found that mob programming can work at amazing speed---even as it feels
 like you're working slowly, doing just a tiny bit before passing the baton to
 the next person.  One day, for example, after we implemented snap-to-grid as
 the user moved an object, we had five minutes left, and our next item was to
-make the grid visible. One student dove in as navigator and we had Qt
-displaying a visible grid just right before class was done.
+make the grid visible---too little time, I thought. But the next
+navigator/driver team dove in, and with a little help from the mob got Qt
+displaying a visible grid before class was done.
+
+We experimented with the rotation timer and found that we liked a 7-minute
+rotation best. That was long enough to let the navigator and driver settle in
+and still allowed each student to get two rounds in during the class period.
+
+
+%Despite the rapidity of progress during class, it became clear that we would
+
+One day, a student mentioned that he had no idea how to implement Undo.
+I assigned readings on the Command and Memento patterns, and the next day,
+after oral presentations, the class weighed them at the whiteboard and chose
+Memento because it seemed simpler to implement: just store a
+vector of snapshots of the current state of the diagram. By the next class
+session, we found the flaw: coordinating ownership of Qt's diagram objects was
+unmanageable. It emerged that the students had never fully grasped that in
+C++, unlike in Java or Python, you distinguish between holding a reference to
+an object and holding the object---and the pitfalls of having to bear this
+responsibility. We deleted the code and reimplemented using the Command
+pattern---and found not only that it worked correctly, it was actually simpler.
+
+This experience---completely unplanned---implicitly taught a fact about
+software design that is easy to say but hard to believe until you've
+experienced it: it's often difficult to tell whether a design idea will be
+good or bad until after you've implemented it. In hindsight, it's easy to say
+that we ``should'' have chosen Command on the first day, but of course that's
+only in hindsight. 
+
+The Memento/Command revision also prompted us to stray from strict mob
+programming and stop the timer for about 45 minutes---the time needed to
+explain and reach consensus about the problem, including understanding that Qt
+was written long before C++11's \texttt{unique\_ptr} and \texttt{shared\_ptr}
+and doesn't follow their rules for ownership of dynamic memory.
+
+
 
 \begin{comment}
 ``common knowledge''
@@ -342,7 +352,43 @@ a problem now
 
 \subsection{Other Problems and Solutions}
 
-\section{Assessment}
+Here are a few other problems that emerged and the solutions we chose.
+
+\begin{comment}
+\emph{Problem:} The term ``software design'' is highly ambiguous.
+Different experts hold radically different conceptions, from
+Jack Reeves' view that ``the source code is the
+design'' \cite{reeves1992software} to IEEE~1016--2009, which specifies
+12~``design viewpoints'', each with its own design entities, design
+relationships, and design attributes, to be described in a design language
+such as UML \cite{IEEE1016-2009}. The number of aspects or elements of software
+design is mind-boggling, and each comes with its own opinionated camps and
+controversies: high-level design, low-level design, system design, interface
+design (which can mean user-interface design, interaction design,
+communication protocols, or class method signatures, depending on who's
+talking), database design, architectural design, GoF design patterns, ways of
+organizing source code into subroutines, and more. How can one course cover so
+many topics, and steer between the Scylla and Charybdis of pushing a
+controversial position on the students and letting students wander without
+guidance into completely uninformed opinions?
+
+\emph{Solution:} The first readings were on three radically different
+conceptions of design, one by Dave Parnas, one by Alan Cooper, and the above
+article by Jack Reeves.
+\end{comment}
+
+\emph{Problem:} The navigator role turned out to induce the most stress. As
+driver, you're sitting at the keyboard typing code in front of everyone, but
+as navigator, you're standing in front of the everyone and you bear the
+responsibility of directing the work. Sometimes a student didn't have ideas
+yet, or his or her ideas weren't yet clear enough to tell someone else how to
+implement them. Our mobbers tended to call out ideas while the navigator was
+still gathering his or her thoughts.
+
+\emph{Solution:} When you're the navigator in this position, ask, ``May I have
+a moment of silence, please?''
+
+\section{Assessment and Conclusions}
 
 The students reported two main things that they learned from the class:
 
@@ -350,7 +396,7 @@ The students reported two main things that they learned from the class:
 \item How to collaborate. The students had all done some pair programming in
 earlier classes, but they had never seen collaboration at this intensity. I
 had meant for mob programming to give the students broad practical experience
-with software design, and it did, but collaboration itself occupied the
+with software design, and it did, but collaboration itself took the
 starring role.
 
 \item The parts of software development that are too hard to put into words.
@@ -366,9 +412,9 @@ discipline of verbalizing every design decision that mob programming imposes.
 
 The biggest disappointment of the course was that 10~weeks was not enough to
 implement a satisfactory ``graph editor for homework assignments''. Ten weeks
-sounds like a long time, but meeting twice a week, it amounts to only
+sounds like a long time, but meeting twice a week, that amounts to only
 about 30~hours of mob programming.  That's less than a week of work at a
-regular job, and it included teaching students many new and unfamiliar design
+regular job, as the students were introduced to many new and unfamiliar design
 concepts.
 
 Another disappointment was that the students got only a little exposure to
@@ -376,33 +422,46 @@ unit tests and test-driven design. The students all made a test or two in
 GoogleTest, but we never used it in the diagram editor, because unit-testing
 a GUI is hard. I would recommend in future mob-programming courses to
 implement a nontrivial back-end for a web site with a simple interface, or
-simply a program that has only a textual user interface.
+simply a program that has only a textual user interface (though this might
+seem dull in our age of dazzling GUIs for everything).
 
 The course was in some ways easy to teach and in other ways hard to teach.
-The students did the lecturing, not me. Most days, I showed up and mobbed more
-as a colleague than as a teacher, contributing the same way that I would in
-industry. However, the course also required me to pay close attention and
-adjust continuously throughout the semester, more than in other classes. While
-I had selected a set of readings before the semester, I had to choose and
-search for readings before each class to suit whatever the programming was
-leadings us to next.
+The students did most of the lecturing, not me. Most days, I showed up and
+mobbed more as a colleague than as a teacher, contributing the same way that I
+would in industry. However, the course also required me to pay close attention
+and adjust continuously and creatively throughout the semester, more than in
+other classes. While I had selected a set of readings before the semester, I
+had to choose and search for readings before each class to suit whatever the
+programming was leadings us to next.
 
 The syllabus listed 78~topics of which I hoped to cover ``some large subset''.
 I count about 55 of them touched on or explored to varying degrees:
 the DRY principle, \emph{git} and version control, refactoring, code smells, 
-the rule of 3 (or 5), smart pointers, Model--View--Controller, adding a level
+the rule of~3 (or~5), smart pointers, Model--View--Controller, adding a level
 of indirection, writing the calling code first, YAGNI, the Command pattern, the
 Memento pattern, coupling and cohesion, and many more. Most of these topics
-came up both the readings and naturally, as they arose in the course of
+came up both in the readings and naturally, as they arose in the course of
 writing code and talking about it.
 
-% Final exam demonstrated weakness
+The course's focus on tacit knowledge gained through experience made designing
+the final exam tricky.  Nevertheless there was much explicit knowledge that
+could be tested: designing a finite-state machine solve a problem, making
+UML diagrams given requirements for a simple distributed system, articulating a
+reason for an opinion about software design. The final exam demonstrated
+weakness in the students' understanding: most answers to the ``hard'' problems
+had some serious flaw. Perhaps that's to be expected in a course with more
+breadth than depth, but I would recommend in future mob-programming courses
+that a homework assignment to be done solo should follow each central topic,
+even if this means going a day without new readings.
 
-I am most pleased that the students \emph{know} what the course taught---they
-know first-hand, not simply ``because I was told that in college''.
-% imperfect knowledge
+Course evaluations averaged 4.8 on a scale of 0 to 5, the highest I've
+received as a teacher.
 
-% course eval numbers
+I am most pleased that the students \emph{know} what they learned in the
+course. Their knowledge is imperfect, but they know it first-hand, not
+``because I was told that in college''.
+
+% TODO how to mob with a larger class
 
 \section{Acknowledgements}
 
@@ -421,196 +480,6 @@ Sherrene Bogle for creating the
 original CS~356 course, making this experiment possible; and most of all to
 the students, who dove boldly, cooperatively, and creatively into a wildly
 experimental course.
-
-\section{Body of the Manuscript}
-The text may be organized into sections and subsections. Please use
-\verb+\section+ and  \verb+\subsection+ commands to define them as shown in the
-Latex source file of this document. Latex will apply section formatting rules.
-
-\subsection{Abstract}
-Provide a one-paragraph brief overview of the paper in both the manuscript for
-review and in the final manuscript for publication.
-
-%\subsection{Citation}
-%Appropriately cite all references to other published works included in the paper.
-%\texttt{biblatex} is used to create a list of references or bibliography as the
-%last section in the paper. Here are citation examples for a
-%book\cite{latexcompanion}, a journal paper\cite{einstein}, a
-%website\cite{knuthwebsite}, and a conference proceeding paper\cite{maurer}.
-%Please check out the source code of this document for details.
-
-\subsection{Double Quote}
-The proper way to typeset double quote is to use two backticks or grave accents
-(\`{}) on the left and two single quotes (\'{}) on the right, e.g.
-\`{}\`{}Hello!\'{}\'{} for ``Hello!''.
-
-\subsection{Lists}
-Lists are easy to create in  \LaTeX\ whether they are ordered, unordered, or
-nested as shown in the following example.
-
-\begin{itemize}[noitemsep]
-  \item The individual entries are indicated with a black dot, a so-called bullet.
-  \item The text in the entries may be of any length.
-\end{itemize}
-
-\begin{enumerate}[noitemsep]
-  \item The labels consist of sequential numbers.
-  \item The numbers start at 1 with every call to the enumerate environment.
-\end{enumerate}
-
-\begin{enumerate}[noitemsep]
-   \item The labels consists of sequential numbers.
-   \begin{itemize}[noitemsep]
-     \item The individual entries are indicated with a black dot, a so-called bullet.
-     \item The text in the entries may be of any length.
-   \end{itemize}
-   \item The numbers start at 1 with every call to the enumerate environment.
-\end{enumerate}
-
-\subsection{Math Expressions}
-The mass-energy equivalence is described by the famous equation
-
-$$E=mc^2$$
-
-discovered in 1905 by Albert Einstein.
-In natural units ($c$ = 1), the formula expresses the identity
-
-\begin{equation}
-E=m
-\end{equation}
-
-\subsection{Tables and Figures}
-Include all tables and figures within the body of the text. (Provide as separate
-files in the original format any figures so that if there are problems with the
-figures coming into the final manuscript there are alternatives available to the editors.)
-
-Here is an example Table \ref{table:nonlin}. Note that each table or figure \textbf{must} have
-a title as our style requirement.
-
-\begin{table}[ht]
-\caption{Nonlinear Model Results} % title of Table
-\label{table:nonlin} % is used to refer this table in the text
-\centering % used for centering table
-\begin{tabular}{c c c c} % centered columns (4 columns)
-\hline\hline %inserts double horizontal lines
-Case & Method\#1 & Method\#2 & Method\#3 \\ [0.5ex] % inserts table
-%heading
-\hline % inserts single horizontal line
-1 & 50 & 837 & 970 \\ % inserting body of the table
-2 & 47 & 877 & 230 \\
-3 & 31 & 25 & 415 \\
-4 & 35 & 144 & 2356 \\
-5 & 45 & 300 & 556 \\ [1ex] % [1ex] adds vertical space
-\hline %inserts single line
-\end{tabular}
-\end{table}
-
-The trim size of the journal is half-letter size, so please be aware that your
-tables or figures may be hard to read if the fonts are too small as shown in
-this Figure \ref{figure:big_table}.
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{big_table.png}
-\caption{Fonts are too small.}
-\label{figure:big_table}
-\end{figure}
-
-In this case, you can either divide the table into multiple parts, or put the
-table/figure sideways on its own page as shown in Figure \ref{figure:big_table1}.
-\begin{sidewaysfigure}[htbp]
-  \includegraphics[width=\textwidth]{big_table.png}
-  \caption{A big table turned sideways on its own page.}
-  \label{figure:big_table1}
-\end{sidewaysfigure}
-
-The code for inserting figures sideways is as follows:
-
-\vbox{
-\begin{lstlisting}[language=TeX, basicstyle=\footnotesize,
-caption=Code to Insert Figures Sideways]
-\begin{sidewaysfigure}[htbp]
-  \includegraphics[width=\textwidth]{big_table.png}
-  \caption{A big table turned sideways on its own page.}
-  \label{figure:big_table1}
-\end{sidewaysfigure}
-\end{lstlisting}
-}
-Here is a live example: \url{https://www.overleaf.com/read/fzcmnctdppgz}
-
-\subsection{Use of Color}
-Even though our digital journal is in color, our print journal is in black and white.
-You may choose to use other colors in your paper, but please be aware that the colors
-you choose may not be distinguishable after they are turned into gray-scale.
-
-\subsection{Reference List}
-The \verb+\printbibliography+ command prints a list of references for you.
-Please use \texttt{sample.bib} as an example to create your bibliography entries.
-
-If you can find a reference on \url{https://scholar.google.com/} you can get a
-``BibTex'' export by clicking on the quotation mark symbol, which is a lot easier
-than entering the information manually.
-
-\subsection{Code Listings}
-Commands from \texttt{listings} package allow you to display code easily with
-customizable coloring and styling rules. Here is an example.
-Please check out the source code of this document for details.
-
-\begin{lstlisting}[language=Python,  caption=Python example]
-x = 42
-epsilon = 0.01
-step = epsilon**2
-num_guesses = 0
-ans = 0.0
-while abs(ans**2-x) > epsilon and ans < x:
-    ans = ans + step
-    num_guesses += 1
-if abs(ans**2-x) <= epsilon:
-    print(str(ans) +
-    ' is close to the square root of ' +
-    str(x))
-else:
-    print('Failed to find square root of ' + str(x))
-print("The number of guesses is " + str(num_guesses))
-\end{lstlisting}
-
-\section{Manuscript Submission}
-The following materials will need to be submitted:
-\begin{enumerate}[noitemsep]
-  \item The final manuscript in Latex.
-  \item Copyright release. It is essential that we receive the copyright
-  release form. By signing this form you are acknowledging that the manuscript
-  has not been printed in another venue, plus you are retaining your rights for
-  use of the manuscript. Read the copyright release. The Consortium will not
-  prohibit you from using the manuscript, but will ask that you credit any reuse
-  to the Consortium as the original source of publication. If you misplace the
-  copyright form, a generic copyright form can be found through the Copyright
-  Release Form\cite{copyright}.\\
-  The Consortium encourages multiple presentations of tutorials and workshops.
-  If you are presenting a tutorial or workshop you may retain the copyright,
-  but we must have that documented. Keep in mind that your manuscript is limited
-  to two pages total. However, you must still submit a copyright form.\\
-  Please note that it is critical that you obtain permission to use third party
-  material. If you use diagrams and such that are attributable to a third party
-  you must obtain formal permission to reprint such items, and must so indicate
-  in the copyright release as well as submit such permission.
-  \item Registration for the conference, along with the appropriate registration
-  fee. We have found that there are some folks in need of publication for
-  promotion and tenure purposes, and then don’t want to present the paper.
-  A major plus of the Consortium conferences is the presentation of the papers,
-  and you must plan on attending. If you do not present the paper at the
-  conference the paper will be removed from the ACM Digital Library.
-  \item A pdf version of your manuscript is most helpful. If there are problems
-  with special characters or special formatting this provides the editors with
-  what you expected your final manuscript to look like. Providing a pdf version
-  or a hard copy helps significantly in envisioning what the author expected
-  the final product to look like.
-  \item Electronic copies of any graphics in a standard format (bitmap, jpeg, tiff).
-\end{enumerate}
-
-\section{Additional Information}
-Please feel free to email \verb+ccsc-editors@googlegroups.com+ for questions.
-This document is modified from the CCSC manuscript formatting
-document\cite{meinke} created by John Meinke.
 
 \medskip
 
