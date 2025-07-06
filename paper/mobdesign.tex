@@ -9,11 +9,16 @@
 \title{Mob Programming in a Software Design Course}
 
 \author{
-Ben Kovitz \\
+%Ben Kovitz \\
+%Department of Computer Science \\
+%California State Polytechnic University, Humboldt \\
+%Arcata, CA 95521 \\
+%\email{blk14@humboldt.edu}\\
+Anonymous Author \\
 Department of Computer Science \\
-California State Polytechnic University, Humboldt \\
-Arcata, CA 95521 \\
-\email{blk14@humboldt.edu}\\
+Anonymous University \\
+Anonymity City \\
+\email{anon@example.com}
 }
 
 \begin{document}
@@ -25,8 +30,9 @@ programming (also ``team programming'', ``ensemble programming'') is
 collaborative programming in which the whole team---in this case, the
 whole class---writes code together at the same time, like pair programming
 but including everyone. The course combined daily collaborative design and
-coding with intensive daily readings and oral presentations. %TODO summarize
-%results
+coding with intensive daily readings and oral presentations. Students
+gained most strongly in skills that are normally hard to teach in
+colleges: egoless cooperation and ``tacit knowledge'' of software design.
 \end{abstract}
 
 \section{Introduction}
@@ -46,14 +52,15 @@ software design:
   \item Experience from industry suggests that pair programming and mob
   programming result in knowledge spreading rapidly throughout the team.
   %@@CITE
-  So, why not exploit this happy property of mob programming as a class's
+  So why not exploit this happy property of mob programming as a class's
   principal method of learning?
 
+  % TODO Delete 1st sentence?
   \item Many industry complaints about skills lacking in recent college
   graduates revolve around ``habitability''---the aspects of design that
   go beyond correctness and relate to programmers' ability to work with
   code over many years, such as readability, maintainability, testability,
-  and debuggability. \cite{Gabriel1996}. The usual college-course format
+  and debuggability \cite{Gabriel1996}. The usual college-course format
   of lectures, homework assignments, and exams often gives students
   experience only with writing small, stand-alone pieces of code that just
   barely work or partly work (enough to get partial credit) and that no one
@@ -114,8 +121,8 @@ class time. The readings came only from sources influential among
 professionals, such as books by Martin Fowler and Scott Meyers, as well as
 famous blog posts and journal articles, not from textbooks.
 
-\item Students were required to keep notebooks in which they recorded what new
-idea or technique they learned in each class session, and to periodically hand
+\item Students were required to keep notebooks in which they recorded the
+ideas or techniques they learned in each class session, and to periodically hand
 these in during the semester.
 
 \item The first few class sessions: design exercises, mostly omitting
@@ -128,11 +135,6 @@ programming together in class.
 \item Last two weeks: we returned to design exercises without implementation,
 now introducing distributed system design (load balancers, microservices,
 etc.).
-
-% MOVE this to "problems"
-%AI policy: allowed and encouraged. During the first half of the semester, use
-%AI only for documentation look-up and simple code-completion with Copilot.
-%During the second half of the semester, run wild and see how much AI can do.
 
 \item Last day of class: each student gave a presentation on what they learned
 during the semester.
@@ -237,8 +239,9 @@ heard across the room. We eventually found a quiet room where the seats faced
 the projection screen and a new driver could swap into place in a few seconds.
 Mobbing can be done hovering around a laptop, but these conveniences help.
 
-After that, we moved on to designing an ATM machine, using Russell Bjork's
-ATM Simulation site \cite{bjork_atm_simulation} and following the method of
+After that, we moved on to designing an ATM machine,
+%using Russell Bjork's ATM Simulation site \cite{bjork_atm_simulation} and
+following the method of
 making classes from nouns in the requirements and assigning responsibilities
 based on relationships, as explained in \cite{wirfs1990designing}. We liked
 the mob-rotation format so much, we used it for this UML-only, whiteboard-only
@@ -261,7 +264,7 @@ exploration (``divergent thinking'') and evaluation or filtering of ideas
 
 We spent one class session brainstorming for features. This gave the
 students experience in collaborative software design at the level of
-requirements or problem definition. The first idea was ``little boxes in a
+requirements or product definition. The first idea was ``little boxes in a
 canvas''. Exploration continued through ``TiKZ editor'' and, most ambitiously,
 ``the VSCode of diagram editors, allowing plug-ins for electrical simulation
 of schematic diagrams or anything else''. We pared that down to ``enough for
@@ -278,14 +281,13 @@ GUI in C++ very quickly and run it on both desktop and mobile platforms,
 deeming this to outweigh the risks of greater complexity and time to learn.
 
 I assigned readings in the Qt documentation and we got back to mob
-programming. We used Claude.ai to whip up a simple demo app in Qt and we were
-convinced we had a winner. But Qt did turn out to be problematic. We spent a
-lot of time in and out of class getting the Qt libraries to install
-and work with VSCode on the students' various computers and operating systems.
-This was chaotic and frustrating---but so is real-life software development,
-often for reasons just like this. Qt did enable us to quickly and easily try
-out out radical new user-interface ideas, something we likely could not have
-done with the other libraries.
+programming.  Qt did turn out to be problematic. We spent a lot of time in and
+out of class getting the Qt libraries to install and work with VSCode on the
+students' various computers and operating systems.  This was chaotic and
+frustrating---but so is real-life software development, often for reasons just
+like this. Qt did enable us to quickly and easily try out out radical new
+user-interface ideas, something we likely could not have done with the other
+libraries.
 
 We found that mob programming can work at amazing speed---even as it feels
 like you're working slowly, doing just a tiny bit before passing the baton to
@@ -298,9 +300,6 @@ displaying a visible grid before class was done.
 We experimented with the rotation timer and found that we liked a 7-minute
 rotation best. That was long enough to let the navigator and driver settle in
 and still allowed each student to get two rounds in during the class period.
-
-
-%Despite the rapidity of progress during class, it became clear that we would
 
 One day, a student mentioned that he had no idea how to implement Undo.
 I assigned readings on the Command and Memento patterns, and the next day,
@@ -321,13 +320,32 @@ good or bad until after you've implemented it. In hindsight, it's easy to say
 that we ``should'' have chosen Command on the first day, but of course that's
 only in hindsight. 
 
-The Memento/Command revision also prompted us to stray from strict mob
+\subsection{Testing the edges of mob programming}
+
+The Memento/Command revision prompted us to stray from strict mob
 programming and stop the timer for about 45 minutes---the time needed to
 explain and reach consensus about the problem, including understanding that Qt
 was written long before C++11's \texttt{unique\_ptr} and \texttt{shared\_ptr}
-and doesn't follow their rules for ownership of dynamic memory.
+and follows different conventions for ownership of dynamic memory.
 
+The navigator role turned out to induce the most stress. As
+driver, you're sitting at the keyboard typing code in front of everyone, but
+as navigator, you're standing in front of the everyone and you bear the
+responsibility of directing the work. Sometimes a student didn't have ideas
+yet, or his or her ideas weren't yet clear enough to tell someone else how to
+implement them. Our mobbers tended to call out ideas while the navigator was
+still gathering his or her thoughts.
+Our solution: When you're the navigator in this position, ask, ``May I have
+a moment of silence, please?''
 
+We found that some design ideas required more thought, or a different
+kind of thought, than happens during mob programming. Sometimes, just getting
+an idea across takes longer than one rotation. So, on some days, I assigned
+to one person not a reading, but a design problem and a first implementation.
+In the next class session, that person gave an oral presentation on what they
+made, and then the class as a whole reimplemented it from scratch. This
+produced a result that was often simpler and was of course understood by the
+whole class, since every student literally had their hands in writing it.
 
 \begin{comment}
 ``common knowledge''
@@ -342,19 +360,37 @@ Some students had previous experience with Git and some did not.
 
 No textbooks.
 
-Hard to teach, easy to teach.
-
 Danger: what if a prima donna shows up?
 
 quiet students not asking questions, not having their problems addressed---not
 a problem now
 \end{comment}
 
+\subsection{AI-Assisted Programming}
+
+The class's AI policy was to use AI mainly for documentation look-up and simple
+code-completion with Copilot during the first half of the semester, and during
+the second half, to run as wild as we could with AI and see all that it can do.
+Right after Spring Break, a student suggested writing a short document
+describing all the features we wanted and letting ChatGPT rewrite the entire
+diagram editor from scratch.
+
+So, we mob-wrote a user-interface design document in a wiki page and let
+ChatGPT rip. Its code did not compile, nor did revising the document to tell
+it not to make those errors again fix it.  We manually fixed the problems and
+made some rapid progress.
+
+But then the class rebelled! The students found that the fast cycle time was
+so fast, they did not understand the code that ChatGPT was producing. They
+wanted to understand the programming and design ideas, not merely see them
+rushing by. So we reverted to our AI policy from the first half of the
+semester, and actually used Copilot more sparingly.
+
+\begin{comment}
 \subsection{Other Problems and Solutions}
 
 Here are a few other problems that emerged and the solutions we chose.
 
-\begin{comment}
 \emph{Problem:} The term ``software design'' is highly ambiguous.
 Different experts hold radically different conceptions, from
 Jack Reeves' view that ``the source code is the
@@ -377,18 +413,9 @@ conceptions of design, one by Dave Parnas, one by Alan Cooper, and the above
 article by Jack Reeves.
 \end{comment}
 
-\emph{Problem:} The navigator role turned out to induce the most stress. As
-driver, you're sitting at the keyboard typing code in front of everyone, but
-as navigator, you're standing in front of the everyone and you bear the
-responsibility of directing the work. Sometimes a student didn't have ideas
-yet, or his or her ideas weren't yet clear enough to tell someone else how to
-implement them. Our mobbers tended to call out ideas while the navigator was
-still gathering his or her thoughts.
-
-\emph{Solution:} When you're the navigator in this position, ask, ``May I have
-a moment of silence, please?''
-
 \section{Assessment and Conclusions}
+
+\subsection{Results}
 
 The students reported two main things that they learned from the class:
 
@@ -409,43 +436,47 @@ happen? How much design is overdesign?
 The students reported that they got extraordinary practice in oral
 communication, partly from the daily oral presentations and partly from the
 discipline of verbalizing every design decision that mob programming imposes.
+Mob rotation circumvented the common problem of vocal students dominating a
+class and quiet students not asking about their concerns.
 
 The biggest disappointment of the course was that 10~weeks was not enough to
 implement a satisfactory ``graph editor for homework assignments''. Ten weeks
 sounds like a long time, but meeting twice a week, that amounts to only
 about 30~hours of mob programming.  That's less than a week of work at a
-regular job, as the students were introduced to many new and unfamiliar design
+regular job, plus the students were learning many unfamiliar
 concepts.
 
 Another disappointment was that the students got only a little exposure to
 unit tests and test-driven design. The students all made a test or two in
-GoogleTest, but we never used it in the diagram editor, because unit-testing
+GoogleTest, but we never used it in the diagram editor because unit-testing
 a GUI is hard. I would recommend in future mob-programming courses to
 implement a nontrivial back-end for a web site with a simple interface, or
-simply a program that has only a textual user interface (though this might
-seem dull in our age of dazzling GUIs for everything).
+simply a program that has only a textual user interface.
 
 The course was in some ways easy to teach and in other ways hard to teach.
-The students did most of the lecturing, not me. Most days, I showed up and
-mobbed more as a colleague than as a teacher, contributing the same way that I
-would in industry. However, the course also required me to pay close attention
+The students did most of the lecturing, not me.
+%Most days, I showed up and
+%mobbed more as a colleague than as a teacher, contributing the same way that I
+%would in industry.
+However, the course also required me to pay close attention
 and adjust continuously and creatively throughout the semester, more than in
 other classes. While I had selected a set of readings before the semester, I
 had to choose and search for readings before each class to suit whatever the
-programming was leadings us to next.
+programming was leading us to next.
 
 The syllabus listed 78~topics of which I hoped to cover ``some large subset''.
-I count about 55 of them touched on or explored to varying degrees:
-the DRY principle, \emph{git} and version control, refactoring, code smells, 
-the rule of~3 (or~5), smart pointers, Model--View--Controller, adding a level
-of indirection, writing the calling code first, YAGNI, the Command pattern, the
-Memento pattern, coupling and cohesion, and many more. Most of these topics
-came up both in the readings and naturally, as they arose in the course of
-writing code and talking about it.
+I count about 55 of them touched on or explored to varying degrees: the DRY
+principle, \emph{git} and version control, refactoring, code smells,
+information-hiding,
+Model--View--Controller and other design patterns, adding a level of
+indirection, writing the calling code first, YAGNI, coupling and cohesion, and
+many more. Most of these topics came up naturally, without lectures, as they
+arose in the course of writing code and talking about it; some needed
+readings.
 
 The course's focus on tacit knowledge gained through experience made designing
 the final exam tricky.  Nevertheless there was much explicit knowledge that
-could be tested: designing a finite-state machine solve a problem, making
+could be tested: designing a finite-state machine to solve a problem, making
 UML diagrams given requirements for a simple distributed system, articulating a
 reason for an opinion about software design. The final exam demonstrated
 weakness in the students' understanding: most answers to the ``hard'' problems
@@ -455,20 +486,45 @@ that a homework assignment to be done solo should follow each central topic,
 even if this means going a day without new readings.
 
 Course evaluations averaged 4.8 on a scale of 0 to 5, the highest I've
-received as a teacher.
+received as a teacher.  I am most pleased that the students \emph{know} what
+they learned in the course. Their knowledge is imperfect, but they know it
+first-hand, not ``because I was told that in college.''
 
-I am most pleased that the students \emph{know} what they learned in the
-course. Their knowledge is imperfect, but they know it first-hand, not
-``because I was told that in college''.
+\subsection{Risks and Unknowns}
 
-% TODO how to mob with a larger class
+Three important unknowns are unaddressed by this experience. First, what if a
+student is uncooperative? An occasional problem in industry, more common in
+people of college age, is the intransigent ``prima donna''---the opinionated
+programmer who knows better than anyone else, sees faster than anyone else
+what to do, and sees no value in patiently working to build consensus.
+
+Second, what if a student is unable to keep up? Programming is hard,
+especially at the nearly professional level reached in this course, and not
+all students have the talent or prior knowledge needed to do it. 
+Some students hold back and let their teammates do most of the work---a
+common problem in group projects, even at the senior level.
+
+In ordinary classes, a few unpleasant or lazy students don't bring down the
+class. But in an intensely collaborative class, they could spoil the
+experience for all.  I was fortunate to have a class filled completely with
+cheerful, dedicated, cooperative students; not all mob-programming classes may
+be so lucky.
+
+And third, could the mob-programming approach be brought to a larger class?
+A mob of eight is already quite large, requiring each student to wait a long
+time between turns as driver; a mob of 30 would be impossible. One idea is to
+have multiple mobs of about 4~students, with the teacher and/or students
+``floating'' between different mobs, carrying information along and being
+brought up to speed upon joining each new mob. Would this require multiple
+projectors? If so, the expense might be prohibitive.
 
 \section{Acknowledgements}
 
 Much gratitude to the many people who helped make the course a success:
 Shahzad Aslam-Mir for wide-ranging advice on everything from projects to tools
-to C++ libraries, which silently averted disasters and made things run
-smoothly; Rebecca Wirfs-Brock for inviting me to look into mob programming and
+to C++ libraries; %, which silently averted disasters and made things run
+%smoothly;
+Rebecca Wirfs-Brock for inviting me to look into mob programming and
 guidance finding the right balance between giving too much and too little
 direction to the students; Woody Zuill for generously making time to answer my
 many basic questions about mobbing; Austin Chadwick and Chris Lucian for
@@ -481,7 +537,7 @@ original CS~356 course, making this experiment possible; and most of all to
 the students, who dove boldly, cooperatively, and creatively into a wildly
 experimental course.
 
-\medskip
+%\medskip
 
 \printbibliography
 
